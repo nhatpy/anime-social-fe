@@ -25,7 +25,7 @@ export const Header = () => {
         <>
             <AntdHeader style={headerStyle}>
                 <div className="flex flex-row items-center justify-evenly w-[60%] mx-auto">
-                    <img src="/assets/logo.png" alt="logo" className="w-[10%] h-[70px]"/>
+                    <img src="/assets/logo.png" alt="logo" className="w-[20%] h-[80px]"/>
                     <Input placeholder="Tìm truyện" prefix={icons.search} className="w-[25%] rounded-none ml-5"/>
                     <Badge count={notification} overflowCount={9}>
                         <div className="text-white text-xl">{icons.notification}</div>

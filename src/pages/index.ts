@@ -1,2 +1,6 @@
 export * from './NotFound'
 export * from './Home'
+export * from './Policy'
+export * from './Terms'
+export * from './Contact'
+export * from './About'

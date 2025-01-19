@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const menuItemNavbar = [
     {
-        label: <Link to='/a' className='flex flex-row items-center justify-center'><span className='pr-2'>{icons.home}</span> HOME</Link>,
+        label: <Link to='/' className='flex flex-row items-center justify-center'><span className='pr-2'>{icons.home}</span> HOME</Link>,
         key: 'home',
     },
     {
