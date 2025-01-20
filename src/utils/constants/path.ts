@@ -4,4 +4,6 @@ export const path = {
     contact: "/contact",
     policy: "/policy",
     terms: "/terms",
+    login: "/login",
+    register: "/register",
 }

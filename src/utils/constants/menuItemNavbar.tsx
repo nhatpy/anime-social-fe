@@ -36,15 +36,15 @@ export const menuItemNavbar = [
         children: [
             {
                 label: <Link to='/#' className='flex flex-row items-center '>Manga</Link>,
-                key: 'manga',
+                key: 'manga-category',
             },
             {
                 label: <Link to='/#' className='flex flex-row items-center '>Manhua</Link>,
-                key: 'manhua',
+                key: 'manhua-category',
             },
             {
                 label: <Link to='/#' className='flex flex-row items-center '>Manhwa</Link>,
-                key: 'manhwa',
+                key: 'manhwa-category',
             },
         ],
     },

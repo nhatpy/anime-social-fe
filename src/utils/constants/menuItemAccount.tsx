@@ -5,7 +5,7 @@ export const items = [
     {
       key: 'login',
       label: (
-        <Link to='/#' className='flex flex-row items-center gap-2'>
+        <Link to='/login' className='flex flex-row items-center gap-2'>
           <span>{icons.user}</span> Đăng nhập
         </Link>
       ),
@@ -13,7 +13,7 @@ export const items = [
     {
       key: 'register',
       label: (
-        <Link to='/#' className='flex flex-row items-center gap-2'>
+        <Link to='/register' className='flex flex-row items-center gap-2'>
           <span>{icons.create}</span> Đăng ký
         </Link>
       ),

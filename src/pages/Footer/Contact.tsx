@@ -1,4 +1,4 @@
-import { HistoryManga, TopManga } from "../components"
+import { HistoryManga, TopManga } from "../../components"
 
 export const Contact = () => {
   return (

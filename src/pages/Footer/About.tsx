@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { HistoryManga, TopManga } from "../components"
+import { HistoryManga, TopManga } from "../../components"
 
 export const About = () => {
   return (

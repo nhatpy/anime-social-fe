@@ -8,7 +8,7 @@ export const DefaultLayout = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Header />
-            <Content className="text-black">
+            <Content className="text-black ">
                 <Outlet />
             </Content>
             <Footer />
