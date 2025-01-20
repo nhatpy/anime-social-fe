@@ -6,7 +6,8 @@ import {
 } from "react-icons/io5";
 import { LuUserRound } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaGoogle, FaPhone } from "react-icons/fa";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 export const icons = {
     search: <IoSearchOutline />,
@@ -19,4 +20,7 @@ export const icons = {
     twitter: <FaTwitter />,
     youtube: <FaYoutube />,
     instagram: <FaInstagram />,
+    password: <RiLockPasswordLine />,
+    google: <FaGoogle />,
+    phone: <FaPhone />
 }
