@@ -1,4 +1,4 @@
 export * from './NotFound'
-export * from './Home'
+export * from './Client'
 export * from './Footer'
 export * from './Auth'

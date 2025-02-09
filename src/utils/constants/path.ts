@@ -6,4 +6,6 @@ export const path = {
     terms: "/terms",
     login: "/login",
     register: "/register",
+    follow: "/follow",
+    history: "/history",
 }

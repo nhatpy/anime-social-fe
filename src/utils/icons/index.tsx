@@ -13,12 +13,19 @@ import {
     IoSearchOutline,
     IoNotificationsOutline,
     IoCreateOutline,
-    IoHomeOutline
+    IoHomeOutline,
+    IoClose,
 } from "react-icons/io5";
 
 import { LuUserRound } from "react-icons/lu";
-import { IoIosArrowDown,IoMdTime,  } from "react-icons/io";
-import { RiLockPasswordLine } from "react-icons/ri";
+import { 
+    IoIosArrowDown,
+    IoMdTime,  
+} from "react-icons/io";
+import { 
+    RiLockPasswordLine, 
+    RiDeleteBinLine 
+} from "react-icons/ri";
 
 export const icons = {
     search: <IoSearchOutline />,
@@ -36,5 +43,7 @@ export const icons = {
     time: <IoMdTime />,
     eye: <FaEye />,
     heart: <FaHeart />,
-    comment: <FaComment />
+    comment: <FaComment />,
+    delete: <RiDeleteBinLine />,
+    close: <IoClose />,
 }

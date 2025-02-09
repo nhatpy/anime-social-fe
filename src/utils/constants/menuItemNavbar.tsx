@@ -11,11 +11,11 @@ export const menuItemNavbar = [
         key: 'hot'
     },
     {
-        label: <Link to='/#' className='flex flex-row items-center uppercase'>theo dõi</Link>,
+        label: <Link to='/follow' className='flex flex-row items-center uppercase'>theo dõi</Link>,
         key: 'follow'
     },
     {
-        label: <Link to='/#' className='flex flex-row items-center uppercase'>tìm truyện</Link>,
+        label: <Link to='/search' className='flex flex-row items-center uppercase'>tìm truyện</Link>,
         key: 'search'
     },
     {
@@ -31,7 +31,7 @@ export const menuItemNavbar = [
         key: 'manhwa'
     },
     {
-        label: <Link to='/#' className='flex flex-row items-center uppercase'>thể loại<span className='pl-2'>{icons.down}</span></Link>,
+        label: <Link to='/search' className='flex flex-row items-center uppercase'>thể loại<span className='pl-2'>{icons.down}</span></Link>,
         key: 'category',
         children: [
             {

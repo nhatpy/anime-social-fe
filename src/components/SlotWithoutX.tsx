@@ -1,6 +1,6 @@
 import { icons } from "../utils/icons"
 
-export const MangaSlot = () => {
+export const SlotWithoutX = () => {
   return (
     <div className="flex flex-col w-full h-full gap-2">
       <div className="w-full h-48 items-center justify-center flex p-2 relative border border-black">
