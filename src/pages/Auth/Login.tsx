@@ -84,14 +84,6 @@ export const Login = () => {
                             >
                                 Đăng nhập
                             </Button>
-                            <Button
-                                className="bg-red-600 text-white text-base p-2 rounded-none py-5 
-                                hover:!border-red-800 focus-within:!border-red-800 focus-within:!shadow-red-800 hover:!text-red-800
-                                gap-5"
-                            >
-                                <span>{icons.google}</span>
-                                Đăng nhập bằng Google
-                            </Button>
                         </div>
                     </Form>
                 </div>
