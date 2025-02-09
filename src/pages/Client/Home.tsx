@@ -1,5 +1,5 @@
 import { Button, Carousel } from 'antd';
-import { HistoryManga, MangaCarousel, MangaSlot, TopManga, TopUser } from '../components';
+import { HistoryManga, MangaCarousel, SlotWithoutX, TopManga, TopUser } from '../../components';
 import { useState } from 'react';
 
 export const Home = () => {
@@ -32,7 +32,7 @@ export const Home = () => {
                     <div className='flex flex-col gap-2 w-[70%]'>
                         <div className='grid grid-cols-4 gap-2 w-full h-full'>
                             {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((_, index) => (
-                                <MangaSlot key={index} />
+                                <SlotWithoutX key={index} />
                             ))}
                         </div>
                         <div className='flex justify-center items-center w-full'>

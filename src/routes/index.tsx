@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { DefaultLayout } from "../layouts";
-import { About, Contact, Home, Login, NotFound, Policy, Register, Terms } from "../pages";
+import { About, Contact, FollowManga, HistoryManga, Home, Login, NotFound, Policy, Register, Terms } from "../pages";
 import { path } from "../utils/constants";
 
 export const router = createBrowserRouter([
@@ -35,6 +35,14 @@ export const router = createBrowserRouter([
             {
                 path: path.register,
                 element: <Register />
+            },
+            {
+                path: path.follow,
+                element: <FollowManga />
+            },
+            {
+                path: path.history,
+                element: <HistoryManga />
             }
         ]
     },

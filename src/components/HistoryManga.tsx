@@ -1,5 +1,6 @@
 import { Table, Tabs, TabsProps } from "antd"
 import { icons } from "../utils/icons";
+import { useNavigate } from "react-router-dom";
 interface LastReadManga {
   key: string;
   rank: string;
@@ -69,10 +70,13 @@ const items: TabsProps['items'] = [
 ];
 
 export const HistoryManga = () => {
+  const navigate = useNavigate();
+
   return (
     <Tabs 
       centered
       items={items} 
+      onTabClick={() => navigate("/history")}  
     />
   )
 }
