@@ -7,11 +7,10 @@ import { Button, Form, Input } from "antd"
 import { icons } from "../../utils/icons"
 
 type LoginData = {
-    fullName: string,
+    fullName: string
     email: string
     password: string
     confirmPassword: string
-    phoneNumber: string
 }
 
 export const Register = () => {
@@ -56,23 +55,6 @@ export const Register = () => {
                                     className='text-base font-medium border-1 border-gray-400 rounded-md p-2 hover:!border-blue-950 focus-within:!border-blue-950 focus-within:!shadow-blue-950'
                                     />
                                     <span className="text-red-500">{errors.fullName?.message}</span>
-                                </>
-                            )}
-                        />
-                        <Controller
-                            name='phoneNumber'
-                            control={control}
-                            render={({ field }) => (
-                                <>
-                                    <label htmlFor="email" className="text-base font-medium text-red-600">*Số điện thoại</label>
-                                    <Input
-                                    id="email"
-                                    prefix={icons.phone}
-                                    {...field}
-                                    placeholder='Số điện thoại'
-                                    className='text-base font-medium border-1 border-gray-400 rounded-md p-2 hover:!border-blue-950 focus-within:!border-blue-950 focus-within:!shadow-blue-950'
-                                    />
-                                    <span className="text-red-500">{errors.phoneNumber?.message}</span>
                                 </>
                             )}
                         />
@@ -136,14 +118,6 @@ export const Register = () => {
                                 className="bg-blue-800 text-white text-base p-2 rounded-none py-5"
                             >
                                 Đăng ký
-                            </Button>
-                            <Button
-                                className="bg-red-600 text-white text-base p-2 rounded-none py-5 
-                                hover:!border-red-800 focus-within:!border-red-800 focus-within:!shadow-red-800 hover:!text-red-800
-                                gap-5"
-                            >
-                                <span>{icons.google}</span>
-                                Đăng nhập bằng Google
                             </Button>
                         </div>
                     </Form>

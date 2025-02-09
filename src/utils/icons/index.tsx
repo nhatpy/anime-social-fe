@@ -1,12 +1,23 @@
 import { 
+    FaFacebookF, 
+    FaInstagram, 
+    FaTwitter, 
+    FaYoutube, 
+    FaPhone,
+    FaHeart,
+    FaComment,
+    FaEye 
+} from "react-icons/fa";
+
+import { 
     IoSearchOutline,
     IoNotificationsOutline,
     IoCreateOutline,
-    IoHomeOutline 
+    IoHomeOutline
 } from "react-icons/io5";
+
 import { LuUserRound } from "react-icons/lu";
-import { IoIosArrowDown } from "react-icons/io";
-import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube, FaGoogle, FaPhone } from "react-icons/fa";
+import { IoIosArrowDown,IoMdTime,  } from "react-icons/io";
 import { RiLockPasswordLine } from "react-icons/ri";
 
 export const icons = {
@@ -21,6 +32,9 @@ export const icons = {
     youtube: <FaYoutube />,
     instagram: <FaInstagram />,
     password: <RiLockPasswordLine />,
-    google: <FaGoogle />,
-    phone: <FaPhone />
+    phone: <FaPhone />,
+    time: <IoMdTime />,
+    eye: <FaEye />,
+    heart: <FaHeart />,
+    comment: <FaComment />
 }

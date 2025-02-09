@@ -1,2 +1,1 @@
-export * from './useBoolean.interface'
-export * from './errorResponse.interface'
+export * from './manga.interface'
