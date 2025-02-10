@@ -1,3 +1,4 @@
+export * from './ScrollToTop'
 export * from './TopManga'
 export * from './HistoryManga'
 export * from './TopUser'
