@@ -1,6 +1,6 @@
-import { Table, Tabs, TabsProps } from "antd"
+import { Card, List } from "antd"
 import { icons } from "../utils/icons";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 interface LastReadManga {
   key: string;
   rank: string;
@@ -20,63 +20,33 @@ const dataSource: LastReadManga[] = [
   { key: "7", rank: "07", img: "/assets/images.jpg", title: "Đệ Nhất Danh Sách", chapter: "Chapter 526", views: "2M" },
 ];
 
-const columns = [
-  {
-    title: "Rank",
-    dataIndex: "rank",
-    key: "rank",
-    render: (rank: string, _record: LastReadManga, index: number) => (
-      <span className={`font-bold text-lg ${index < 3 ? "text-red-500" : "text-gray-500"}`}>
-        {rank}
-      </span>
-    ),
-  },
-  {
-    title: "Manga",
-    dataIndex: "img",
-    key: "img",
-    render: (img: string, record: LastReadManga) => (
-      <div className="flex items-center space-x-2">
-        <img src={img} alt={record.title} className="w-10 h-10 rounded object-cover" />
-        <div>
-          <p className="font-medium truncate w-40">{record.title}</p>
-          <p className="text-sm text-gray-500">{record.chapter}</p>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Views",
-    dataIndex: "views",
-    key: "views",
-    render: (views: string) => (
-      <span className="flex items-center text-gray-500">{icons.eye} {views}</span>
-    ),
-  },
-];
-
-const items: TabsProps['items'] = [
-  {
-    key: '1',
-    label: 'Truyện Vừa Đọc',
-    children: <Table<LastReadManga>
-      dataSource={dataSource}
-      columns={columns}
-      pagination={false}
-      showHeader={false}
-      className="w-full border rounded-lg shadow-md"
-    />
-  }
-];
-
 export const HistoryManga = () => {
-  const navigate = useNavigate();
 
   return (
-    <Tabs 
-      centered
-      items={items} 
-      onTabClick={() => navigate("/history")}  
-    />
+    <Card 
+      title="Truyện Vừa Đọc" 
+      extra={<Link to={"/history"} className="text-sm italic text-gray-500">Xem tất cả</Link>} 
+      style={{ width: "100%" }}
+      styles={{ body: { padding: "16px" } }}
+    >
+      <List
+        dataSource={dataSource}
+        renderItem={(item, index) => (
+          <List.Item className="flex items-center border-b gap-2 w-full">
+            <span className={`font-bold text-lg ${index < 3 ? "text-red-500" : "text-gray-500"}`}>
+              {item.rank}
+            </span>
+            <div className="flex items-center space-x-2 flex-1">
+              <img src={item.img} alt={item.title} className="w-10 h-10 rounded object-cover" />
+              <div className="w-full">
+                <p className="font-medium truncate w-40">{item.title}</p>
+                <p className="text-sm text-gray-500">{item.chapter}</p>
+              </div>
+            </div>
+            <span className="flex items-center text-gray-500">{icons.eye} {item.views}</span>
+          </List.Item>
+        )}
+      />
+    </Card>
   )
 }

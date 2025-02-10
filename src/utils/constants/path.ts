@@ -8,4 +8,5 @@ export const path = {
     register: "/register",
     follow: "/follow",
     history: "/history",
+    search: "/search",
 }

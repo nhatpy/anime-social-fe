@@ -56,7 +56,7 @@ const columns = [
 const items: TabsProps['items'] = [
   {
     key: '1',
-    label: 'Top Tháng',
+    label: <span className="font-semibold text-base">Top Tháng</span>,
     children: <Table<Manga>
       dataSource={dataSource}
       columns={columns}
@@ -67,7 +67,7 @@ const items: TabsProps['items'] = [
   },
   {
     key: '2',
-    label: 'Top Tuần',
+    label: <span className="font-semibold text-base">Top Tuần</span>,
     children: <Table<Manga>
       dataSource={dataSource}
       columns={columns}
@@ -78,7 +78,7 @@ const items: TabsProps['items'] = [
   },
   {
     key: '3',
-    label: 'Top Ngày',
+    label: <span className="font-semibold text-base">Top Ngày</span>,
     children: <Table<Manga>
       dataSource={dataSource}
       columns={columns}

@@ -6,7 +6,9 @@ import {
     FaPhone,
     FaHeart,
     FaComment,
-    FaEye 
+    FaEye,
+    FaChevronUp,
+    FaBars 
 } from "react-icons/fa";
 
 import { 
@@ -15,6 +17,7 @@ import {
     IoCreateOutline,
     IoHomeOutline,
     IoClose,
+    IoDiamondOutline,
 } from "react-icons/io5";
 
 import { LuUserRound } from "react-icons/lu";
@@ -46,4 +49,7 @@ export const icons = {
     comment: <FaComment />,
     delete: <RiDeleteBinLine />,
     close: <IoClose />,
+    up: <FaChevronUp />,
+    diamond: <IoDiamondOutline />,
+    chapter: <FaBars />,
 }

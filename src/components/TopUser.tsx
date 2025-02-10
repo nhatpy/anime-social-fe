@@ -1,4 +1,5 @@
-import { Table, Tabs, TabsProps } from "antd";
+import { Card, List } from "antd"
+import { icons } from "../utils/icons";
 interface User {
   key: string;
   rank: string;
@@ -17,52 +18,30 @@ const dataSource: User[] = [
   { key: "7", rank: "07", avatar: "/assets/images (1).jpg", name: "User 7", amount: 77 },
 ];
 
-const columns = [
-  {
-    title: "Rank",
-    dataIndex: "rank",
-    key: "rank",
-    render: (rank: string, _record: User, index: number) => (
-      <span className={`font-bold text-lg ${index < 3 ? "text-red-500" : "text-gray-500"}`}>
-        {rank}
-      </span>
-    ),
-  },
-  {
-    title: "Manga",
-    dataIndex: "avatar",
-    key: "avatar",
-    render: (avatar: string, record: User) => (
-      <div className="flex items-center space-x-2">
-        <img src={avatar} alt={record.name} className="w-10 h-10 rounded object-cover" />
-        <div>
-          <p className="font-medium truncate w-40">{record.name}</p>
-          <p className="text-sm text-gray-500 border border-red-400 w-fit rounded-sm p-[1px]">{record.amount}</p>
-        </div>
-      </div>
-    ),
-  }
-];
-
-const items: TabsProps['items'] = [
-  {
-    key: '1',
-    label: 'Top Thành Viên',
-    children: <Table<User>
-      dataSource={dataSource}
-      columns={columns}
-      pagination={false}
-      showHeader={false}
-      className="w-full border rounded-lg shadow-md"
-    />
-  }
-];
-
 export const TopUser = () => {
   return (
-    <Tabs 
-      centered
-      items={items} 
-    />
+    <Card 
+      title="Top Thành Viên"
+      style={{ width: "100%"}} 
+      styles={{ body: { padding: "16px" } }}
+    >
+      <List
+        dataSource={dataSource}
+        renderItem={(item, index) => (
+          <List.Item className="flex items-center border-b gap-2 w-full">
+            <span className={`font-bold text-lg ${index < 3 ? "text-red-500" : "text-gray-500"}`}>
+              {item.rank}
+            </span>
+            <div className="flex items-center space-x-2 flex-1">
+              <img src={item.avatar} alt={item.name} className="w-10 h-10 rounded object-cover" />
+              <div className="w-full">
+                <p className="font-medium truncate w-40">{item.name}</p>
+                  <p className="text-sm text-gray-500 flex items-center"><span className="mr-1">{icons.diamond}</span>{item.amount}</p>
+              </div>
+            </div>
+          </List.Item>
+        )}
+      />
+    </Card>
   )
 }
