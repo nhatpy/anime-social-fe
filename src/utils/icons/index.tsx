@@ -8,7 +8,10 @@ import {
     FaComment,
     FaEye,
     FaChevronUp,
-    FaBars 
+    FaBars,
+    FaBook,
+    FaSignOutAlt,
+    FaChartBar,
 } from "react-icons/fa";
 
 import { 
@@ -27,7 +30,9 @@ import {
 } from "react-icons/io";
 import { 
     RiLockPasswordLine, 
-    RiDeleteBinLine 
+    RiDeleteBinLine,
+    RiErrorWarningFill,
+    RiUploadCloud2Fill  
 } from "react-icons/ri";
 
 export const icons = {
@@ -52,4 +57,9 @@ export const icons = {
     up: <FaChevronUp />,
     diamond: <IoDiamondOutline />,
     chapter: <FaBars />,
+    book: <FaBook />,
+    logout: <FaSignOutAlt />,
+    iconwithI: <RiErrorWarningFill />,
+    chart: <FaChartBar />,
+    upload: <RiUploadCloud2Fill />,
 }

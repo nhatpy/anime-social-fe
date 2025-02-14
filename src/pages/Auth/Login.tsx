@@ -74,7 +74,7 @@ export const Login = () => {
                             )}
                         />
                         <div className="mb-2 text-right">
-                            <Link to="/forgot-password" className="text-blue-800">Quên mật khẩu?</Link>
+                            <Link to="/verify-email" className="text-blue-800">Quên mật khẩu?</Link>
                             <Link to="/register" className="text-blue-800 ml-5">Đăng ký</Link>
                         </div>
                         <div className="flex flex-col gap-3 mb-4">
