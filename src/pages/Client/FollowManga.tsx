@@ -5,7 +5,7 @@ import { useState } from "react"
 
 export const FollowManga = () => {
   const items = [{title: <Link to="/">Trang chủ</Link>}, {title: "Theo dõi"}]
-    const [isLogin] = useState(true);
+  const [isLogin] = useState(true);
 
   return (
     <div className="w-full h-full flex justify-center items-center">
@@ -38,6 +38,6 @@ export const FollowManga = () => {
               </div>          
           </div>
       </div>
-  </div>
+    </div>
   )
 }

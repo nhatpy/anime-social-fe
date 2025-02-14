@@ -1,7 +1,7 @@
 import { Layout, Input, Badge, Dropdown, Menu } from "antd"
 import { icons } from "../../utils/icons";
 import { useState } from "react";
-import { items, menuItemNavbar } from "../../utils/constants";
+import { items, itemsLogin, menuItemNavbar } from "../../utils/constants";
 
 const { Header: AntdHeader } = Layout
 
@@ -20,6 +20,7 @@ const headerStyle: React.CSSProperties = {
 export const Header = () => {
 
     const [notification] = useState(9)
+    const [isLogin] = useState(true)
 
     return (
         <>
@@ -32,7 +33,7 @@ export const Header = () => {
                     </Badge>
                     <div className="flex flex-row items-center gap-2">
                         <div className="text-xl">{icons.user}</div>
-                        <Dropdown menu={{items}} placement="bottom">
+                        <Dropdown menu={{items: isLogin ? itemsLogin : items}} placement="bottom">
                             <div className="flex flex-row text-sm cursor-pointer gap-2 justify-center items-center">
                                 <span>Tài khoản</span> <span>{icons.down}</span>
                             </div>

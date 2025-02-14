@@ -74,7 +74,7 @@ export const SearchManga = () => {
                   style={{ width: "100%" }} 
                   styles={{body : {padding: "16px"}}}
                 >
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 text-base">
                     <div>
                       <p>
                           <Link to="/#">Tất cả</Link>
