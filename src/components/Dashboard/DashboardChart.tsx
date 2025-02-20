@@ -1,5 +1,5 @@
 export const DashboardChart = () => {
   return (
-    <div>DashboardChart</div>
+    <div>Tính năng đang phát triển</div>
   )
 }
