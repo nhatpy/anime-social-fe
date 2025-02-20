@@ -69,7 +69,7 @@ export const DashboardLayout = () => {
         },
     ];
 
-    const [isAdmin] = useState("USER");
+    const [isAdmin] = useState("ADMIN");
   return (
     <div className="w-full h-full flex justify-center items-center">
         <div className="w-[60%] h-full flex flex-col bg-white p-5 gap-5">

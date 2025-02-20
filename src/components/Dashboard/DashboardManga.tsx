@@ -1,4 +1,64 @@
+import { Button, Pagination, Popover, Table } from "antd";
 import { Link } from "react-router-dom"
+import { icons } from "../../utils/icons";
+
+const dataSource = [
+  { key: "1", img: "/assets/images.jpg", title: "Bà Xã Nhà Tôi Đến Từ Ngàn Năm Trước", numberOfChapter: "Chapter 351", views: "562K", isVerified: true },
+  { key: "2", img: "/assets/images.jpg", title: "Bách Luyện Thành Thần", numberOfChapter: "Chapter 1264", views: "41M", isVerified: false },
+  { key: "3", img: "/assets/images.jpg", title: "Chàng Rể Mạnh Nhất Lịch Sử", numberOfChapter: "Chapter 269", views: "119K", isVerified: false },
+  { key: "4", img: "/assets/images.jpg", title: "Ta Có 90 Tỷ Tiền Liếm Cầu!", numberOfChapter: "Chapter 495", views: "138K", isVerified: true },
+  { key: "5", img: "/assets/images.jpg", title: "Đại Quân Gia Là Ma Hoàng", numberOfChapter: "Chapter 659", views: "469K", isVerified: true },
+];
+
+const content = (
+  <div className="flex flex-row gap-2">
+    <Button className="text-blue-600" type="text">Sửa{icons.create}</Button>
+    <Button className="text-red-600" type="text">Xóa{icons.delete}</Button>
+  </div>
+)
+
+const columns = [
+  {
+    title: 'Hình nền',
+    dataIndex: 'img',
+    key: 'img',
+    render: (img: string) => <img src={img} alt
+    ="" className="w-[70px] h-[70px] object-cover rounded-lg"/>
+  },
+  {
+    title: 'Tên truyện',
+    dataIndex: 'title',
+    key: 'title',
+    render: (title: string) => <p className="w-[200px] truncate">{title}</p>
+  },
+  {
+    title: 'Lượt theo dõi',
+    dataIndex: 'views',
+    key: 'views',
+    render: (views: string) => <p className="">{views}</p>
+  },
+  {
+    title: 'Số chapter',
+    dataIndex: 'numberOfChapter',
+    key: 'numberOfChapter',
+    render: (numberOfChapter: string) => <p className="">{numberOfChapter}</p>
+  },
+  {
+    title: 'Xác nhận',
+    dataIndex: 'isVerified',
+    key: 'isVerified',
+    render: (isVerified: boolean) => isVerified ? <p className="text-green-600">Đã xác nhận</p> : <p className="text-red-600">Chưa xác nhận</p>
+  },
+  {
+    title: "Hành động",
+    key: "action",
+    render: () => (
+      <Popover content={content} trigger="hover">
+        <Button type="primary">Hành động</Button>
+      </Popover>
+    )
+  }
+];
 
 export const DashboardManga = () => {
   return (
@@ -12,8 +72,11 @@ export const DashboardManga = () => {
             bằng cách <span className="text-red-600">sáng tác</span> và <span className="text-red-600">đăng tải</span> lên những bộ 
             truyện tranh hấp dẫn tại <Link to="/create-manga" className="text-blue-600">đây</Link>.</p>
           <div className="flex flex-col gap-4 mt-5 text-base text-[18px]">
-            <div className="flex flex-row gap-5 items-center w-full">
-              
+            <div className="flex flex-row gap-5 items-center justify-center w-full">
+              <Table dataSource={dataSource} columns={columns} pagination={false}/>
+            </div>
+            <div className='flex justify-center items-center w-full'>
+              <Pagination align="center" defaultCurrent={1} total={50} />
             </div>
           </div>
         </div>
