@@ -19,4 +19,5 @@ export const path = {
     verify_email: "/verify-email",
     reset_password: "/reset-password",
     create_manga: "/create-manga",
+    verify_success: "/verify-success",
 }

@@ -15,7 +15,8 @@ import {
     Register, 
     SearchManga, 
     Terms, 
-    NewPassword
+    NewPassword,
+    VerifySuccess
 } from "../pages";
 import { path } from "../utils/constants";
 import { DashboardChart, DashboardGem, DashboardInfo, DashboardManageManga, DashboardManageUser, DashboardManga, DashboardPassword } from "../components";
@@ -106,6 +107,10 @@ export const router = createBrowserRouter([
             {
                 path: path.reset_password,
                 element: <NewPassword />
+            },
+            {
+                path: path.verify_success,
+                element: <VerifySuccess />
             }
         ]
     },
