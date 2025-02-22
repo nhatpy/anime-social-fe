@@ -1,5 +1,11 @@
-import { Button, Pagination, Popover, Table } from "antd";
 import { Link } from "react-router-dom"
+import { 
+  Button, 
+  Pagination, 
+  Popover, 
+  Table 
+} from "antd";
+
 import { icons } from "../../utils/icons";
 
 const dataSource = [
@@ -70,7 +76,7 @@ export const DashboardManga = () => {
         <div className="flex flex-col gap-4 w-full">
           <p className="italic text-sm text-[16px]">Hãy trở thành một phần của cộng đồng <span className="text-amber-500">Oneshot Manga</span>, 
             bằng cách <span className="text-red-600">sáng tác</span> và <span className="text-red-600">đăng tải</span> lên những bộ 
-            truyện tranh hấp dẫn tại <Link to="/create-manga" className="text-blue-600">đây</Link>.</p>
+            truyện tranh hấp dẫn tại <Link to="/manga/create-manga" className="text-blue-600">đây</Link>.</p>
           <div className="flex flex-col gap-4 mt-5 text-base text-[18px]">
             <div className="flex flex-row gap-5 items-center justify-center w-full">
               <Table dataSource={dataSource} columns={columns} pagination={false}/>

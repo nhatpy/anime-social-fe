@@ -1,5 +1,6 @@
-import { icons } from '../icons';
 import { Link } from 'react-router-dom';
+
+import { icons } from '../icons';
 
 export const menuItemNavbar = [
     {

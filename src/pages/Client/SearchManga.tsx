@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom"
-import { CustomBreadcrumb, SlotWithoutX } from "../../components"
-import { Pagination, Card, Button } from "antd"
+import { 
+  Pagination, 
+  Card, 
+  Button 
+} from "antd"
+
 import { icons } from "../../utils/icons"
+import { 
+  CustomBreadcrumb, 
+  SlotWithoutX 
+} from "../../components"
 
 export const SearchManga = () => {
   const items = [{title: <Link to="/">Trang chủ</Link>}, {title: "Tìm truyện"}]

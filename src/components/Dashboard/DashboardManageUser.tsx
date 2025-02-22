@@ -1,4 +1,10 @@
-import { Button, Pagination, Popover, Table } from "antd";
+import { 
+  Button, 
+  Pagination, 
+  Popover, 
+  Table 
+} from "antd";
+
 import { icons } from "../../utils/icons";
 
 const dataSource = [
@@ -61,7 +67,7 @@ export const DashboardManageUser = () => {
         <div className="flex flex-col gap-4 w-full">
           <div className="flex flex-col gap-4 mt-5 text-base text-[18px]">
             <div className="flex flex-row gap-5 items-center justify-center w-full">
-              <Table dataSource={dataSource} columns={columns} pagination={false}/>
+              <Table className="w-full" dataSource={dataSource} columns={columns} pagination={false}/>
             </div>
             <div className='flex justify-center items-center w-full'>
               <Pagination align="center" defaultCurrent={1} total={50} />

@@ -1,4 +1,5 @@
 import { Popover } from "antd"
+
 import { icons } from "../utils/icons"
 
 export const SlotWithoutX = () => {
@@ -13,7 +14,6 @@ export const SlotWithoutX = () => {
       <div className="flex flex-row gap-1 w-full">
         <img src="/assets/images.jpg" alt="" className="w-[40%] h-[180px] rounded"/>
         <div className="flex flex-col gap-1 w-[60%]">
-          <p><span className="font-semibold text-blue-800">Tên khác: </span>Tên khác của tôi là abcxyz</p>
           <p><span className="font-semibold text-blue-800">Thể loại: </span>Chuyển sinh, Manhua, Truyện màu, Tu tiên</p>
           <p><span className="font-semibold text-blue-800">Tình trạng: </span>Chưa hoàn thành</p>
           <p><span className="font-semibold text-blue-800">Lượt xem: </span>100K</p>

@@ -1,9 +1,18 @@
-import { Button, Form, Image, Input } from "antd"
-import { uploadToCloudinary } from "../../utils/helpers";
+import { 
+  Button, 
+  Form, 
+  Image,
+  Input 
+} from "antd"
 import * as yup from "yup";
-import { Controller, useForm } from "react-hook-form";
+import { 
+  Controller, 
+  useForm 
+} from "react-hook-form";
+
 import { yupResolver } from "@hookform/resolvers/yup";
-import { icons } from "../../utils/icons";
+
+import { uploadToCloudinary } from "../../utils/helpers";
 
 const schema = yup.object().shape({
   avatar: yup.string().url("Hình ảnh không hợp lệ")
@@ -16,10 +25,7 @@ export const DashboardInfo = () => {
       formState: { errors, isDirty },
       watch,
   } = useForm({
-      resolver: yupResolver(schema),
-      defaultValues: {
-          avatar: "",
-      }
+      resolver: yupResolver(schema)
   })
   
   const onSubmit = (data: { avatar?: string }) => {
@@ -73,10 +79,7 @@ export const DashboardInfo = () => {
                   render={({ field }) => (
                     <>
                       <input
-                        {...field}
                         type="file"
-                        style={{ display: "none" }}
-                        id="avatar-upload"
                         onChange={async (e) => {
                         if (e.target.files && e.target.files[0]) {
                           const file = e.target.files[0];
@@ -87,14 +90,6 @@ export const DashboardInfo = () => {
                         }
                         }}
                       />
-                      <label htmlFor="avatar-upload">
-                      <Button
-                        className="bg-blue-500 text-white hover:bg-blue-600 transition-all"
-                      >
-                        {icons.upload}
-                        Chọn ảnh
-                      </Button>
-                    </label>
                       <span className="text-red-500">{errors.avatar?.message}</span>
                     </>
                   )}

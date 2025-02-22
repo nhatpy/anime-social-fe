@@ -1,6 +1,12 @@
 import { Pagination } from "antd"
-import { CustomBreadcrumb, SlotHistory, TopManga, TopUser } from "../../components"
 import { Link } from "react-router-dom"
+
+import { 
+  CustomBreadcrumb, 
+  SlotHistory, 
+  TopManga, 
+  TopUser 
+} from "../../components"
 
 export const HistoryManga = () => {
   const items = [{title: <Link to="/">Trang chủ</Link>}, {title: "Lịch sử"}]

@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
+
+import { path } from "../utils/constants";
 import { 
     DashboardLayout,
     DefaultLayout 
@@ -16,10 +18,23 @@ import {
     SearchManga, 
     Terms, 
     NewPassword,
-    VerifySuccess
+    VerifySuccess,
+    MangaDetail,
+    ChapterDetail,
+    CreateManga,
+    CreateChapter,
+    MangaCreateDetail
 } from "../pages";
-import { path } from "../utils/constants";
-import { DashboardChart, DashboardGem, DashboardInfo, DashboardManageManga, DashboardManageUser, DashboardManga, DashboardPassword } from "../components";
+import { 
+    DashboardCategory, 
+    DashboardChart, 
+    DashboardGem, 
+    DashboardInfo, 
+    DashboardManageManga, 
+    DashboardManageUser, 
+    DashboardManga, 
+    DashboardPassword 
+} from "../components";
 
 export const router = createBrowserRouter([
     {
@@ -97,6 +112,10 @@ export const router = createBrowserRouter([
                     {
                         path: path.dashboard_change_password,
                         element: <DashboardPassword />
+                    },
+                    {
+                        path: path.dashboard_category,
+                        element: <DashboardCategory />
                     }
                 ]
             },
@@ -111,6 +130,26 @@ export const router = createBrowserRouter([
             {
                 path: path.verify_success,
                 element: <VerifySuccess />
+            },
+            {
+                path: path.manga_detail,
+                element: <MangaDetail />
+            },
+            {
+                path: path.chapter_detail,
+                element: <ChapterDetail />
+            },
+            {
+                path: path.create_manga,
+                element: <CreateManga />
+            },
+            {
+                path: path.create_chapter,
+                element: <CreateChapter />
+            },
+            {
+                path: path.manga_create_detail,
+                element: <MangaCreateDetail />
             }
         ]
     },

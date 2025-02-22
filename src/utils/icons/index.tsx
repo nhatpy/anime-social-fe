@@ -12,6 +12,12 @@ import {
     FaBook,
     FaSignOutAlt,
     FaChartBar,
+    FaTag,
+    FaAudible,
+    FaAudioDescription,
+    FaPlus,
+    FaChevronLeft,
+    FaChevronRight,
 } from "react-icons/fa";
 
 import { 
@@ -34,6 +40,10 @@ import {
     RiErrorWarningFill,
     RiUploadCloud2Fill  
 } from "react-icons/ri";
+import {
+    MdCategory,
+    MdOutlineTipsAndUpdates 
+ } from "react-icons/md";
 
 export const icons = {
     search: <IoSearchOutline />,
@@ -62,4 +72,12 @@ export const icons = {
     iconwithI: <RiErrorWarningFill />,
     chart: <FaChartBar />,
     upload: <RiUploadCloud2Fill />,
+    tag: <FaTag />,
+    status: <FaAudible />,
+    description: <FaAudioDescription />,
+    more: <FaPlus />,
+    left: <FaChevronLeft />,
+    right: <FaChevronRight />,
+    category: <MdCategory />,
+    update: <MdOutlineTipsAndUpdates />,
 }

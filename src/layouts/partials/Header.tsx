@@ -1,7 +1,18 @@
-import { Layout, Input, Badge, Dropdown, Menu } from "antd"
-import { icons } from "../../utils/icons";
 import { useState } from "react";
-import { items, itemsLogin, menuItemNavbar } from "../../utils/constants";
+import { 
+    Layout, 
+    Input, 
+    Badge, 
+    Dropdown, 
+    Menu 
+} from "antd"
+
+import { icons } from "../../utils/icons";
+import { 
+    items, 
+    itemsLogin, 
+    menuItemNavbar 
+} from "../../utils/constants";
 
 const { Header: AntdHeader } = Layout
 
@@ -41,7 +52,7 @@ export const Header = () => {
                     </div>
                 </div>
             </AntdHeader>
-            <div className="sticky top-0 z-50">
+            <div className="sticky top-0 left-0 z-50">
                 <div className="flex justify-center items-center w-full text-base bg-white">
                     <Menu
                         mode="horizontal"

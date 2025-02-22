@@ -1,5 +1,6 @@
 import { Layout } from "antd"
 import { Link } from "react-router-dom";
+
 import { icons } from "../../utils/icons";
 
 const footerStyle: React.CSSProperties = {

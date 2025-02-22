@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { icons } from "../../utils/icons"
 import { Button } from "antd";
+
+import { icons } from "../../utils/icons"
 
 //20 linh thach = 1000 VND
 const stoneAmounts = [200, 400, 1000, 2000, 4000, 10000];

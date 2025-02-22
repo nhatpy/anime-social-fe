@@ -1,6 +1,10 @@
-import { Card, List } from "antd"
-import { icons } from "../utils/icons";
 import { Link } from "react-router-dom";
+import { 
+  Card, 
+  List 
+} from "antd"
+
+import { icons } from "../utils/icons";
 interface LastReadManga {
   key: string;
   rank: string;

@@ -1,6 +1,13 @@
 import { Button, Carousel } from 'antd';
-import { HistoryManga, MangaCarousel, SlotWithoutX, TopManga, TopUser } from '../../components';
 import { useState } from 'react';
+
+import { 
+    HistoryManga, 
+    MangaCarousel, 
+    SlotWithoutX, 
+    TopManga, 
+    TopUser 
+} from '../../components';
 
 export const Home = () => {
     const [isLogin] = useState(true);

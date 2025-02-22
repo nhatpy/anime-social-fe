@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom"
-import { CustomBreadcrumb, HistoryManga, SlotWithX, TopManga, TopUser } from "../../components"
 import { Pagination } from "antd"
 import { useState } from "react"
+
+import { 
+  CustomBreadcrumb, 
+  HistoryManga, 
+  SlotWithX, 
+  TopManga, 
+  TopUser 
+} from "../../components"
 
 export const FollowManga = () => {
   const items = [{title: <Link to="/">Trang chủ</Link>}, {title: "Theo dõi"}]

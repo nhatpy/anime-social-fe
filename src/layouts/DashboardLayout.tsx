@@ -1,7 +1,14 @@
-import { Tabs, TabsProps } from "antd";
+import { 
+    Link, 
+    Outlet 
+} from "react-router-dom";
 import { useState } from "react";
+import { 
+    Tabs, 
+    TabsProps 
+} from "antd";
+
 import { Roles } from "../utils/common";
-import { Link, Outlet } from "react-router-dom";
 import { CustomBreadcrumb } from "../components";
 import { icons } from "../utils/icons";
 
@@ -53,6 +60,11 @@ export const DashboardLayout = () => {
             children: <Outlet />,
         },
         {
+            key: "admin-manage-category",
+            label: <Link to="/dashboard/category" className="font-medium text-base flex items-center gap-2">{icons.category}Quản lý thể loại</Link>,
+            children: <Outlet />,
+        },
+        {
             key: "admin-manage-manga",
             label: <Link to="/dashboard/manage-manga" className="font-medium text-base flex items-center gap-2">{icons.book}Quản lý truyện</Link>,
             children: <Outlet />,
@@ -69,7 +81,9 @@ export const DashboardLayout = () => {
         },
     ];
 
-    const [isAdmin] = useState("ADMIN");
+    //ADMIN
+    //USER
+    const [isAdmin] = useState("USER");
   return (
     <div className="w-full h-full flex justify-center items-center">
         <div className="w-[60%] h-full flex flex-col bg-white p-5 gap-5">

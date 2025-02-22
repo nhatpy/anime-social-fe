@@ -1,9 +1,21 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Form, Input } from 'antd'
-import { Controller, useForm } from 'react-hook-form'
+import { 
+    useEffect, 
+    useState 
+} from 'react'
+import { 
+    Button, 
+    Form, 
+    Input 
+} from 'antd'
 import * as yup from 'yup'
+import { 
+    Controller, 
+    useForm 
+} from 'react-hook-form'
+
+import { yupResolver } from '@hookform/resolvers/yup'
+
 import { icons } from '../../utils/icons'
-import { useEffect, useState } from 'react'
 
 const schema = yup.object().shape({
     email: yup.string().email("Email không hợp lệ").required("Vui lòng nhập email"),

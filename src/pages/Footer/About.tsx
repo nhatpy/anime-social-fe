@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom"
-import { CustomBreadcrumb, HistoryManga, TopManga } from "../../components"
+
+import { 
+    CustomBreadcrumb, 
+    TopManga 
+} from "../../components"
 
 export const About = () => {
     const items = [{title: <Link to="/">Trang chủ</Link>}, {title: "Giới thiệu"}]
@@ -47,8 +51,7 @@ export const About = () => {
                     Chúng tôi luôn sẵn sàng lắng nghe ý kiến của bạn và cung cấp hỗ trợ khi bạn cần. Nếu bạn có bất kỳ câu hỏi hoặc góp ý, vui lòng liên hệ với chúng tôi thông qua địa chỉ <Link to="/#" className="text-blue-400">email</Link>. Hoặc trang <Link to="/contact" className="text-blue-400">Liên hệ</Link> của chúng tôi. Chúng tôi rất trân trọng mọi đóng góp từ bạn, và sẽ cố gắng để đảm bảo rằng Oneshot Manga luôn là nơi tốt nhất để bạn thỏa mãn đam mê truyện tranh của mình. Hãy cùng chúng tôi khám phá thế giới tuyệt vời của truyện tranh tại Oneshot Manga - nơi mọi câu chuyện hình ảnh được truyền tải và biểu đạt một cách tinh tế và đầy sáng tạo. Đừng bỏ lỡ cơ hội tham gia cùng hàng triệu độc giả khác để thả mình vào những trải nghiệm độc đáo và tuyệt vời, chỉ có tại Oneshot Manga!                </p>
                 </div>
             </div>
-            <div className="flex flex-col justify-center items-center w-[40%] gap-2 text-right">
-                <HistoryManga />
+            <div className="flex flex-col w-[40%] gap-2 text-right">
                 <TopManga />
             </div>
         </div>
