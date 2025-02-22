@@ -1,4 +1,8 @@
-import { useState, useEffect } from "react";
+import { 
+  useState, 
+  useEffect 
+} from "react";
+
 import { icons } from "../utils/icons";
 
 export const ScrollToTop = () => {

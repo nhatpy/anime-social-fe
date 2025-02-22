@@ -1,6 +1,12 @@
-import { Button, message, Pagination, Table } from "antd";
-import { icons } from "../../utils/icons";
 import { useState } from "react";
+import { 
+  Button, 
+  message, 
+  Pagination, 
+  Table 
+} from "antd";
+
+import { icons } from "../../utils/icons";
 
 const dataSource = [
   { key: "1", img: "/assets/images.jpg", title: "Bà Xã Nhà Tôi Đến Từ Ngàn Năm Trước", numberOfChapter: "Chapter 351", views: "562K", isVerified: true },
@@ -53,7 +59,7 @@ const columns = [
 export const DashboardManageManga = () => {
   const handleConfirm = () => {
     message.success(`Xác nhận thành công ${selectedManga.length} truyện!`);
-    setSelectedManga([]); // Xóa danh sách sau khi xác nhận
+    setSelectedManga([]);
   };
   const [selectedManga, setSelectedManga] = useState<string[]>([]);
 
@@ -62,7 +68,7 @@ export const DashboardManageManga = () => {
       setSelectedManga(selectedRowKeys as string[]);
       console.log(`selectedManga: ${selectedManga}`);
     },
-    getCheckboxProps: (record: any) => ({
+    getCheckboxProps: (record: { isVerified: boolean }) => ({
       disabled: record.isVerified,
     }),
   };

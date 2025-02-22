@@ -1,7 +1,16 @@
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, Form, Input } from 'antd'
-import { Controller, useForm } from 'react-hook-form'
+import { 
+    Button, 
+    Form, 
+    Input 
+} from 'antd'
+import { 
+    Controller, 
+    useForm 
+} from 'react-hook-form'
 import * as yup from 'yup'
+
+import { yupResolver } from '@hookform/resolvers/yup'
+
 import { icons } from '../../utils/icons'
 
 const schema = yup.object().shape({
@@ -33,7 +42,7 @@ export const NewPassword = () => {
             <div className="w-[60%] h-full flex flex-col justify-center items-center bg-white p-5 gap-5">
                 <Form onFinish={handleSubmit(onSubmit)} className="flex flex-col gap-2 w-full mt-4">
                     <h3 className="text-2xl font-bold text-blue-800 relative uppercase mb-4">
-                        Đổi mật khẩu
+                        Đổi mật khẩu mới
                         <span className="absolute left-0 bottom-[-8px] w-1/6 h-1 bg-amber-600"></span>
                     </h3>
                     <div className='w-full flex flex-col justify-center items-center'>

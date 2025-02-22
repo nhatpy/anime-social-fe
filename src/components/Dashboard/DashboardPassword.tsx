@@ -1,8 +1,17 @@
-import { Button, Form, Input } from "antd"
-import { Controller, useForm } from "react-hook-form"
-import { icons } from "../../utils/icons"
+import { 
+  Button, 
+  Form, 
+  Input 
+} from "antd"
+import { 
+  Controller, 
+  useForm 
+} from "react-hook-form"
 import * as yup from "yup"
+
 import { yupResolver } from "@hookform/resolvers/yup"
+
+import { icons } from "../../utils/icons"
 
 type ChangePasswordData = {
   currentPassword: string

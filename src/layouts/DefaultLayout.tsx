@@ -1,7 +1,12 @@
 import { Layout } from "antd"
-import { Footer, Header } from "./partials"
 import { Outlet } from "react-router-dom"
+
 import { ScrollToTop } from "../components"
+
+import { 
+    Footer, 
+    Header 
+} from "./partials"
 
 const {Content} = Layout
 

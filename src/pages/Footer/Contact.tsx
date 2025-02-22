@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom"
-import { CustomBreadcrumb, HistoryManga, TopManga } from "../../components"
+
+import { 
+    CustomBreadcrumb, 
+    TopManga 
+} from "../../components"
 
 export const Contact = () => {
     const items = [{title: <Link to="/">Trang chủ</Link>}, {title: "Liên hệ"}]
@@ -29,7 +33,6 @@ export const Contact = () => {
                 </div>
             </div>
             <div className="flex flex-col justify-center items-center w-[40%] gap-2 text-right">
-                <HistoryManga />
                 <TopManga />
             </div>
         </div>

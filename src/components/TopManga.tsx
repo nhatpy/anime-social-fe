@@ -1,4 +1,9 @@
-import { Table, Tabs, TabsProps } from 'antd';
+import { 
+  Table, 
+  Tabs, 
+  TabsProps 
+} from 'antd';
+
 import { icons } from '../utils/icons';
 interface Manga {
   key: string;

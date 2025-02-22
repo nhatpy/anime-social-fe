@@ -1,4 +1,8 @@
-import { Card, List } from "antd"
+import { 
+  Card, 
+  List 
+} from "antd"
+
 import { icons } from "../utils/icons";
 interface User {
   key: string;

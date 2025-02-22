@@ -1,9 +1,18 @@
-import { yupResolver } from "@hookform/resolvers/yup"
-import { Controller, useForm } from "react-hook-form"
+import { 
+    Controller, 
+    useForm 
+} from "react-hook-form"
 import { Link } from "react-router-dom"
+import { 
+    Button, 
+    Form, 
+    Input 
+} from "antd"
+
+import { yupResolver } from "@hookform/resolvers/yup"
+
 import { registerSchema } from "../../utils/constants"
 import { CustomBreadcrumb } from "../../components"
-import { Button, Form, Input } from "antd"
 import { icons } from "../../utils/icons"
 
 type LoginData = {
