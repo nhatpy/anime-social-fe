@@ -10,9 +10,9 @@ export const path = {
     //for auth
     login: "/login",
     register: "/register",
-    verify_success: "/verify-success",
-    verify_email: "/verify-email",
-    reset_password: "/reset-password",
+    verify_success: "/verify-success", //for verify user success after register
+    verify_email: "/verify-email", //for provide email to verify email after click on forgot password
+    reset_password: "/reset-password", //for reset password after verify email success
 
     //for list manga
     follow: "/follow",
