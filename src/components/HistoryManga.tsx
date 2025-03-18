@@ -19,9 +19,7 @@ const dataSource: LastReadManga[] = [
   { key: "2", rank: "02", img: "/assets/images.jpg", title: "Bách Luyện Thành Thần", chapter: "Chapter 1264", views: "41M" },
   { key: "3", rank: "03", img: "/assets/images.jpg", title: "Chàng Rể Mạnh Nhất Lịch Sử", chapter: "Chapter 269", views: "119K" },
   { key: "4", rank: "04", img: "/assets/images.jpg", title: "Ta Có 90 Tỷ Tiền Liếm Cầu!", chapter: "Chapter 495", views: "138K" },
-  { key: "5", rank: "05", img: "/assets/images.jpg", title: "Đại Quân Gia Là Ma Hoàng", chapter: "Chapter 659", views: "469K" },
-  { key: "6", rank: "06", img: "/assets/images.jpg", title: "Hệ Thống Super God", chapter: "Chapter 155", views: "22K" },
-  { key: "7", rank: "07", img: "/assets/images.jpg", title: "Đệ Nhất Danh Sách", chapter: "Chapter 526", views: "2M" },
+  { key: "5", rank: "05", img: "/assets/images.jpg", title: "Đại Quân Gia Là Ma Hoàng", chapter: "Chapter 659", views: "469K" }
 ];
 
 export const HistoryManga = () => {

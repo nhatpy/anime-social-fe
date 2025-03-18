@@ -1,33 +1,42 @@
 import { useState } from "react";
 import { Button } from "antd";
 
-import { icons } from "../../utils/icons"
+import { icons } from "../../utils/icons";
 
 //20 linh thach = 1000 VND
-const stoneAmounts = [200, 400, 1000, 2000, 4000, 10000];
+const stoneAmounts = [20, 40, 100, 200, 400, 1000];
 
 export const DashboardGem = () => {
   const [selectedGem, setSelectedGem] = useState<number | null>(null);
   return (
     <div className="flex flex-col gap-4 w-full h-full">
-      <h2 className="text-3xl font-bold text-blue-800">
-        Linh thạch
-      </h2>
+      <h2 className="text-3xl font-bold text-blue-800">Linh thạch</h2>
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-col gap-4 w-full">
-          <p className="italic text-sm text-[16px]">Linh thạch thể hiện mức độ Tài Phú của bạn tại Oneshot Manga, 
-            dùng để đua <span className="text-amber-700">Top thành viên</span>, 
-            giúp bạn trở thành một trong những nhân vật nổi tiếng trên nền tảng này, 
-            có thể kiểm <span className="text-pink-600">Linh thạch</span> thông qua 
-            <span className="text-red-600"> nạp tiền</span>.</p>
+          <p className="italic text-sm text-[16px]">
+            Linh thạch thể hiện mức độ Tài Phú của bạn tại Oneshot Manga, dùng
+            để đua <span className="text-amber-700">Top thành viên</span>, giúp
+            bạn trở thành một trong những nhân vật nổi tiếng trên nền tảng này,
+            có thể kiểm <span className="text-pink-600">Linh thạch</span> thông
+            qua
+            <span className="text-red-600"> nạp tiền</span>.
+          </p>
           <p className="text-lg font-[500] text-cyan-800 flex gap-2">
-            Linh thạch hiện có: <span className="text-pink-600 flex items-center gap-1">0 <span className="text-base">{icons.diamond}</span></span>
+            Linh thạch hiện có:{" "}
+            <span className="text-pink-600 flex items-center gap-1">
+              0 <span className="text-base">{icons.diamond}</span>
+            </span>
           </p>
           <div className="flex flex-col gap-4 mt-5 text-base text-[18px]">
             <div className="flex flex-row gap-5 items-center w-full">
               <p className="text-cyan-800 w-fit">Chọn số lượng linh thạch:</p>
               <div className="flex flex-row gap-5 items-center">
-                <Button color="pink" disabled={selectedGem === null} variant="solid" className="text-sm text-[16px] font-medium">
+                <Button
+                  color="pink"
+                  disabled={selectedGem === null}
+                  variant="solid"
+                  className="text-sm text-[16px] font-medium"
+                >
                   Thu thập linh thạch
                 </Button>
               </div>
@@ -38,7 +47,9 @@ export const DashboardGem = () => {
                   key={amount}
                   color="pink"
                   variant={selectedGem === amount ? "solid" : "outlined"}
-                  onClick={() => setSelectedGem(selectedGem === amount ? null : amount)}
+                  onClick={() =>
+                    setSelectedGem(selectedGem === amount ? null : amount)
+                  }
                   className="text-sm text-[16px] font-medium"
                   block
                 >
@@ -50,5 +61,5 @@ export const DashboardGem = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
