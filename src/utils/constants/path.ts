@@ -29,10 +29,10 @@ export const path = {
     dashboard_manga: "/dashboard/manga",
 
         //only admin
-    dashboard_chart: "/dashboard/chart",
-    dashboard_manage_user: "/dashboard/manage-user",
-    dashboard_manage_manga: "/dashboard/manage-manga",
-    dashboard_category: "/dashboard/category",
+    admin_chart: "/admin",
+    admin_manage_user: "/admin/manage-user",
+    admin_manage_manga: "/admin/manage-manga",
+    admin_manage_category: "/admin/manage-category",
 
     //for manga detail
     manga_detail: "/manga/:manga-name",
