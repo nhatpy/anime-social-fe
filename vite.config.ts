@@ -14,5 +14,8 @@ export default defineConfig({
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@utils': path.resolve(__dirname, 'src/utils'),
     }
+  },
+  define: {
+    global: 'window'
   }
 });
