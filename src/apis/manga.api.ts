@@ -1,7 +1,7 @@
 import { instance as axiosClient } from "../configs";
 import { IBulkActiveRequest, ICreateMangaRequest, IGetMangaPaginationRequest, IUpdateMangaRequest } from "../interfaces";
 
-export const authenticationApi = {
+export const mangaApi = {
     createManga: async (createManga: ICreateMangaRequest) => {
         return await axiosClient.post('/manga/create', createManga);
     },

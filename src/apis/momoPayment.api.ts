@@ -1,7 +1,7 @@
 import { instance as axiosClient } from "../configs";
 import { IPayment } from "../interfaces";
 
-export const authenticationApi = {
+export const paymentApi = {
     donate: async (paymentRequest: IPayment) => {
         return await axiosClient.post('/payment/momo', paymentRequest);
     },

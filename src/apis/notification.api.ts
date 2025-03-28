@@ -1,7 +1,7 @@
 import { instance as axiosClient } from "../configs";
 import { IGetNotificationRequest } from "../interfaces";
 
-export const authenticationApi = {
+export const notificationApi = {
     getPagination: async ({userId, ...params}: IGetNotificationRequest) => {
         const queryString = new URLSearchParams(
             Object.entries(params).reduce((acc, [key, value]) => {

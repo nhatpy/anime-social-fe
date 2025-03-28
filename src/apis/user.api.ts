@@ -1,7 +1,7 @@
 import { instance as axiosClient } from "../configs";
 import { IPaginationRequest, IUpdateUserRequest } from "../interfaces";
 
-export const authenticationApi = {
+export const userApi = {
     getPagination: async (params: IPaginationRequest) => {
         const queryString = new URLSearchParams(
             Object.entries(params).reduce((acc, [key, value]) => {

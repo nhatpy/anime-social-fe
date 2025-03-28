@@ -1,7 +1,7 @@
 import { instance as axiosClient } from "../configs";
 import { IListPagination, IListRequest } from "../interfaces";
 
-export const authenticationApi = {
+export const followListApi = {
     addToFollowList: async (addRequest: IListRequest) => {
         const url = `/follow/${addRequest.userId}/${addRequest.mangaId}`;
         return await axiosClient.post(url, addRequest);

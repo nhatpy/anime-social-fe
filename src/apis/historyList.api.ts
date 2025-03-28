@@ -1,7 +1,7 @@
 import { instance as axiosClient } from "../configs";
 import { IHistoryListRequest, IListPagination, IListRequest } from "../interfaces";
 
-export const authenticationApi = {
+export const historyListApi = {
     checkHistory: async (checkRequest: IListRequest) => {
         const url = `/history-read/${checkRequest.userId}/check/${checkRequest.mangaId}`;
         return await axiosClient.get(url);
