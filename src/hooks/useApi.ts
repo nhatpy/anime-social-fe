@@ -24,9 +24,8 @@ export const useApi = <T>(): UseApiRequestReturn<T> => {
       await apiFunc()
       setShowSuccess()
     } catch (error: unknown) {
-      const axiosError = error as AxiosError<{errorMessage: string, errorStatus: HttpStatusCode}>
-
-      const errorMessage = axiosError.response?.data?.errorMessage
+      const axiosError = error as AxiosError<{message: string, errorStatus: HttpStatusCode}>
+      const errorMessage = axiosError.response?.data?.message
       if (errorMessage) {
         setErrorMessage(errorMessage)
       }
