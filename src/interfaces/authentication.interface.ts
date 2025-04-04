@@ -16,3 +16,20 @@ export interface IRegisterRequest {
     password: string,
     fullName: string
 }
+
+export interface IRegisterWithForm extends IRegisterRequest {
+    confirmPassword: string
+}
+
+export interface IToken {
+    token: string
+}
+
+export interface IVerifyEmailRequest {
+    email: string,
+}
+
+export interface IResetPasswordRequest {
+    userId: string,
+    newPassword: string,
+}

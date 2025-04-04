@@ -23,6 +23,7 @@ import {
   CreateChapter,
   MangaCreateDetail,
   TestWebSocket,
+  EmailVerificationReminder,
 } from "../pages";
 import {
   DashboardCategory,
@@ -113,6 +114,10 @@ export const router = createBrowserRouter([
       {
         path: path.verify_success,
         element: <VerifySuccess />,
+      },
+      {
+        path: path.email_reminder,
+        element: <EmailVerificationReminder />,
       },
       {
         path: path.manga_detail,

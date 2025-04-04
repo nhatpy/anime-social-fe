@@ -13,6 +13,7 @@ export const path = {
     verify_success: "/verify-success", //for verify user success after register
     verify_email: "/verify-email", //for provide email to verify email after click on forgot password
     reset_password: "/reset-password", //for reset password after verify email success
+    email_reminder: "/email-reminder", //for email reminder
 
     //for list manga
     follow: "/follow",

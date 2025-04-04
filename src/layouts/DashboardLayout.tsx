@@ -3,8 +3,11 @@ import { Tabs, TabsProps } from "antd";
 
 import { CustomBreadcrumb } from "../components";
 import { icons } from "../utils/icons";
+import { LogoutFunction } from "../utils/helpers";
 
 export const DashboardLayout = () => {
+  const { handleLogout } = LogoutFunction();
+
   const breadcrumItems = [
     { title: <Link to="/">Trang chủ</Link> },
     { title: "Thông tin chung" },
@@ -62,9 +65,16 @@ export const DashboardLayout = () => {
     {
       key: "user-logout",
       label: (
-        <Link to="/#" className="font-medium text-base flex items-center gap-2">
-          {icons.logout}Thoát
-        </Link>
+        <p className="font-medium text-base flex items-center gap-2">
+          <button
+            className="flex items-center gap-2"
+            onClick={() =>
+              handleLogout(localStorage.getItem("access_token") || "")
+            }
+          >
+            {icons.logout}Đăng xuất
+          </button>
+        </p>
       ),
       children: <Outlet />,
     },

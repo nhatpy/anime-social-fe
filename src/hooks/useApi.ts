@@ -33,7 +33,7 @@ export const useApi = <T>(): UseApiRequestReturn<T> => {
       setUnloading()
       setTimeout(() => {
         setUnShowSuccess()
-      }, 3000)
+      }, 2000)
     }
   }
 
