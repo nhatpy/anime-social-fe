@@ -14,9 +14,5 @@ export interface IUser {
 
 export interface IUpdateUserRequest {
     id: string,
-    password?: string,
     avatar?: string,
-    fullName?: string
-    wallet?: number
-    isWarning?: boolean
 }

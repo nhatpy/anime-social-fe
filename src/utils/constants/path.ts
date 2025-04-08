@@ -28,6 +28,7 @@ export const path = {
         //only user
     dashboard_gem: "/dashboard/gem",
     dashboard_manga: "/dashboard/manga",
+    payment_success: "/payment-success",
 
         //only admin
     admin_chart: "/admin",

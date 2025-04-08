@@ -33,3 +33,7 @@ export interface IResetPasswordRequest {
     userId: string,
     newPassword: string,
 }
+
+export interface IChangePasswordRequest extends IResetPasswordRequest{
+    currentPassword: string,
+}

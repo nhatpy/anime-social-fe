@@ -1,5 +1,5 @@
 import { instance as axiosClient } from "../configs";
-import { ILoginRequest, IRegisterRequest, IResetPasswordRequest, IToken, IVerifyEmailRequest } from "../interfaces";
+import { IChangePasswordRequest, ILoginRequest, IRegisterRequest, IResetPasswordRequest, IToken, IVerifyEmailRequest } from "../interfaces";
 
 export const authenticationApi = {
     login: async (loginRequest: ILoginRequest) => {
@@ -22,6 +22,14 @@ export const authenticationApi = {
             newPassword : resetPasswordRequest.newPassword,
         }
         const url = `/auth/reset-password?id=${resetPasswordRequest.userId}`;
+        return await axiosClient.post(url, sendData);
+    },
+    changePassword: async (changePasswordRequest: IChangePasswordRequest) => {
+        const sendData = {
+            currentPassword: changePasswordRequest.currentPassword,
+            newPassword: changePasswordRequest.newPassword,
+        }
+        const url = `/auth/change-password?id=${changePasswordRequest.userId}`;
         return await axiosClient.post(url, sendData);
     }
 }

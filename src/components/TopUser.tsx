@@ -53,6 +53,7 @@ export const TopUser = () => {
       title="Top Thành Viên"
       style={{ width: "100%" }}
       styles={{ body: { padding: "16px" } }}
+      className="shadow-md"
     >
       <List
         dataSource={dataSource}
