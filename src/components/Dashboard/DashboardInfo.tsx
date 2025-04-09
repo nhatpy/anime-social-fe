@@ -1,5 +1,4 @@
 import { Button, Form, Image, Input, message } from "antd";
-import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,10 +8,7 @@ import { useApi, useBoolean } from "../../hooks";
 import { useEffect } from "react";
 import { userApi } from "../../apis";
 import { useAuthStore } from "../../utils/stores";
-
-const schema = yup.object().shape({
-  avatar: yup.string().url("Hình ảnh không hợp lệ"),
-});
+import { updateAvatarSchema } from "../../utils/constants";
 
 export const DashboardInfo = () => {
   const { loading, errorMessage, callApi: updateAvatar } = useApi<void>();
@@ -27,7 +23,7 @@ export const DashboardInfo = () => {
     watch,
     reset,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(updateAvatarSchema),
     defaultValues: {
       avatar: currentUser?.avatar,
     },

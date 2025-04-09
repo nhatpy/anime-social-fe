@@ -1,6 +1,5 @@
 import { Button, Form, Input, message } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -9,17 +8,7 @@ import { useApi } from "../../hooks";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { authenticationApi } from "../../apis";
-
-const schema = yup.object().shape({
-  password: yup
-    .string()
-    .min(6, "Mật khẩu ít nhất 6 ký tự")
-    .required("Vui lòng nhập mật khẩu!"),
-  confirmPassword: yup
-    .string()
-    .required("Vui lòng nhập mật khẩu!")
-    .oneOf([yup.ref("password")], "Nhập lại mật khẩu không khớp!"),
-});
+import { resetPasswordSchema } from "../../utils/constants";
 
 export const NewPassword = () => {
   const [searchParams] = useSearchParams();
@@ -33,7 +22,7 @@ export const NewPassword = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(resetPasswordSchema),
   });
 
   const onSubmit = async (formData: {

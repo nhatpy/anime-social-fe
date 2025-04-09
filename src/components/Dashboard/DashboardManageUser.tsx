@@ -121,7 +121,7 @@ const columns = [
     render: () => (
       <Popover
         content={content}
-        trigger="hover"
+        trigger="click"
         placement="bottom"
         overlayClassName="popover-no-padding"
       >

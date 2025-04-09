@@ -1,7 +1,5 @@
 import { Button, Form, Input, message } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import * as yup from "yup";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { icons } from "../../utils/icons";
@@ -9,31 +7,13 @@ import { useApi } from "../../hooks";
 import { useEffect } from "react";
 import { authenticationApi } from "../../apis";
 import { useAuthStore } from "../../utils/stores";
+import { changePasswordSchema } from "../../utils/constants";
 
 type ChangePasswordData = {
   currentPassword: string;
   newPassword: string;
   confirmPassword: string;
 };
-
-const schema = yup.object().shape({
-  currentPassword: yup
-    .string()
-    .min(6, "Mật khẩu ít nhất 6 ký tự")
-    .required("Vui lòng nhập mật khẩu!"),
-  newPassword: yup
-    .string()
-    .min(6, "Mật khẩu ít nhất 6 ký tự")
-    .required("Vui lòng nhập mật khẩu!")
-    .notOneOf(
-      [yup.ref("currentPassword")],
-      "Mật khẩu mới không được giống mật khẩu hiện tại!"
-    ),
-  confirmPassword: yup
-    .string()
-    .required("Vui lòng nhập mật khẩu!")
-    .oneOf([yup.ref("newPassword")], "Nhập lại mật khẩu không khớp!"),
-});
 
 export const DashboardPassword = () => {
   const { currentUser } = useAuthStore();
@@ -44,7 +24,7 @@ export const DashboardPassword = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(changePasswordSchema),
   });
 
   const onSubmit = async (submitData: ChangePasswordData) => {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Input, message } from "antd";
-import * as yup from "yup";
 import { Controller, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,13 +8,7 @@ import { icons } from "../../utils/icons";
 import { useApi } from "../../hooks";
 import { IVerifyEmailRequest } from "../../interfaces";
 import { authenticationApi } from "../../apis";
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Email không hợp lệ")
-    .required("Vui lòng nhập email"),
-});
+import { emailVerifySchema } from "../../utils/constants";
 
 export const EmailToVerify = () => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -43,7 +36,7 @@ export const EmailToVerify = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(emailVerifySchema),
   });
 
   const onSubmit = async (verifyEmailRequest: IVerifyEmailRequest) => {

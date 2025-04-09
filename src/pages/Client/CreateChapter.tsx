@@ -1,23 +1,12 @@
 import { useState } from "react";
-import { 
-  useForm, 
-  Controller 
-} from "react-hook-form";
-import * as yup from "yup";
-import { 
-  Button, 
-  Input 
-} from "antd";
+import { useForm, Controller } from "react-hook-form";
+import { Button, Input } from "antd";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { icons } from "../../utils/icons";
 import { uploadToCloudinary } from "../../utils/helpers";
-
-const schema = yup.object().shape({
-  chapterNumber: yup.number().positive("Số thứ tự phải lớn hơn 0").required("Vui lòng nhập số thứ tự"),
-  images: yup.array().min(1, "Cần ít nhất một ảnh").required(),
-});
+import { createChapterSchema } from "../../utils/constants";
 
 export const CreateChapter = () => {
   const {
@@ -27,7 +16,7 @@ export const CreateChapter = () => {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(createChapterSchema),
     defaultValues: { images: [] },
   });
 
@@ -43,7 +32,10 @@ export const CreateChapter = () => {
           return url;
         })
       );
-      setValue("images", [...watch("images"), ...uploadedImages.filter((url) => url)]);
+      setValue("images", [
+        ...watch("images"),
+        ...uploadedImages.filter((url) => url),
+      ]);
       setUploading(false);
     }
   };
@@ -93,8 +85,15 @@ export const CreateChapter = () => {
         </div>
         <div className="mt-2 space-y-2">
           {watch("images").map((img: string, index: number) => (
-            <div key={index} className="flex items-center gap-2 border p-2 rounded-md">
-              <img src={img} alt={`Chapter Image ${index}`} className="w-full h-full object-cover rounded-md" />
+            <div
+              key={index}
+              className="flex items-center gap-2 border p-2 rounded-md"
+            >
+              <img
+                src={img}
+                alt={`Chapter Image ${index}`}
+                className="w-full h-full object-cover rounded-md"
+              />
               <Button
                 shape="circle"
                 icon={icons.delete}
@@ -104,10 +103,14 @@ export const CreateChapter = () => {
             </div>
           ))}
         </div>
-        <Button htmlType="submit" type="primary" className="mt-4 w-fit text-base">
+        <Button
+          htmlType="submit"
+          type="primary"
+          className="mt-4 w-fit text-base"
+        >
           Thêm Chapter
         </Button>
       </form>
     </div>
   );
-}
+};
