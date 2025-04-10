@@ -1,41 +1,49 @@
-import { Button, Input, Checkbox, Select, message, Image } from "antd";
-import { useForm, Controller } from "react-hook-form";
-
-import { yupResolver } from "@hookform/resolvers/yup";
-
-import { convertToSlug, uploadToCloudinary } from "../../utils/helpers";
-import { useEffect, useState } from "react";
-import { createMangaSchema } from "../../utils/constants";
-import { useApi } from "../../hooks";
-import { categoryApi, mangaApi } from "../../apis";
+import React, { useEffect, useState } from "react";
 import {
   ICategory,
   ICategoryOption,
   ICreateMangaForm,
-  ICreateMangaRequest,
-} from "../../interfaces";
-import { useAuthStore } from "../../utils/stores";
-import { useNavigate } from "react-router-dom";
+  IManga,
+  IUpdateMangaRequest,
+} from "../interfaces";
+import { Button, Checkbox, Input, message, Modal, Image, Select } from "antd";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useApi } from "../hooks";
+import { createMangaSchema } from "../utils/constants";
+import { categoryApi, mangaApi } from "../apis";
+import { convertToSlug, uploadToCloudinary } from "../utils/helpers";
 
-export const CreateManga = () => {
-  const navigate = useNavigate();
-  const { currentUser } = useAuthStore();
-  const [categoryOptions, setCategoryOptions] = useState<ICategoryOption[]>([]);
+type UpdateMangaModalProps = {
+  isOpen: boolean;
+  handleCancel: () => void;
+  manga: IManga;
+  toggleChanged: () => void;
+};
+
+export const UpdateMangaModal: React.FC<UpdateMangaModalProps> = ({
+  isOpen,
+  handleCancel,
+  manga,
+  toggleChanged,
+}) => {
+  const { errorMessage, loading, callApi: callMangaApis } = useApi<void>();
   const { callApi: getCategories } = useApi<void>();
-  const { loading, errorMessage, callApi: callMangaApis } = useApi<void>();
+  const [categoryOptions, setCategoryOptions] = useState<ICategoryOption[]>([]);
   const {
     handleSubmit,
     control,
+    reset,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     resolver: yupResolver(createMangaSchema),
     defaultValues: {
-      categoryIds: [],
-      name: "",
-      description: "",
-      coverImg: "",
-      isDone: false,
+      name: manga.name,
+      description: manga.description,
+      coverImg: manga.coverImage,
+      isDone: manga.isDone,
+      categoryIds: manga.categories.map((category) => category.value),
     },
   });
 
@@ -47,24 +55,41 @@ export const CreateManga = () => {
     setCategoryOptions(options);
   };
 
-  const onSubmit = async (createMangaRequest: ICreateMangaForm) => {
+  const handleUpdateManga = async (request: ICreateMangaForm) => {
     await callMangaApis(async () => {
-      const sendData: ICreateMangaRequest = {
-        authorId: currentUser?.id || "",
-        categoryIds: createMangaRequest.categoryIds,
-        name: createMangaRequest.name,
-        slug: convertToSlug(createMangaRequest.name),
-        description: createMangaRequest.description,
-        coverImg: createMangaRequest.coverImg,
-        isDone: createMangaRequest.isDone || false,
+      const sendData: IUpdateMangaRequest = {
+        slug: convertToSlug(request.name),
+        description: request.description,
+        coverImg: request.coverImg,
+        isDone: request.isDone || false,
       };
-      const { data } = await mangaApi.createManga(sendData);
+      const { data } = await mangaApi.updateManga(sendData);
       if (data) {
+        toggleChanged();
+        handleCancel();
         message.success(data.message, 3);
-        navigate(`/manga/create-manga/${data.data.slug}`);
       }
     });
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      message.error(errorMessage, 3);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (manga && isOpen) {
+      reset({
+        name: manga.name,
+        description: manga.description,
+        coverImg: manga.coverImage,
+        isDone: manga.isDone,
+        categoryIds: manga.categories.map((category) => category.value),
+      });
+    }
+  }, [manga, isOpen, reset]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       await getCategories(async () => {
@@ -77,15 +102,19 @@ export const CreateManga = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    if (errorMessage) {
-      message.error(errorMessage, 3);
-    }
-  }, [errorMessage]);
   return (
-    <div className="max-w-2xl mx-auto p-6 my-6 rounded-md bg-white shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-blue-600">Sáng tác truyện</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <Modal
+      title={<span className="text-xl font-semibold">Thêm danh mục</span>}
+      open={isOpen}
+      onCancel={handleCancel}
+      footer={null}
+      centered
+      width={600}
+    >
+      <form
+        onSubmit={handleSubmit(handleUpdateManga)}
+        className="flex flex-col gap-4"
+      >
         <div>
           <label className="font-semibold">Thể loại</label>
           <Controller
@@ -99,6 +128,7 @@ export const CreateManga = () => {
                 options={categoryOptions}
                 onChange={(selected) => field.onChange(selected)}
                 className="w-full mt-1"
+                disabled={true}
               />
             )}
           />
@@ -116,6 +146,7 @@ export const CreateManga = () => {
                 {...field}
                 placeholder="Nhập tên truyện"
                 className="mt-1"
+                disabled={true}
               />
             )}
           />
@@ -186,10 +217,15 @@ export const CreateManga = () => {
             )}
           />
         </div>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Đăng truyện
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={loading}
+          disabled={!isDirty}
+        >
+          Cập nhật truyện
         </Button>
       </form>
-    </div>
+    </Modal>
   );
 };

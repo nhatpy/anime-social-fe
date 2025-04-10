@@ -1,4 +1,4 @@
-import { IPaginationRequest, ISimpleChapter } from ".";
+import { ICategoryOption, IPaginationRequest, ISimpleChapter } from ".";
 
 export interface IManga {
     id: string,
@@ -11,10 +11,10 @@ export interface IManga {
     isDone: boolean,
     isActive: boolean,
     authorName: string,
-    categoriesName: string[],
+    categories: ICategoryOption[],
     chapters: ISimpleChapter[],
-    createdAt: Date,
-    updatedAt: Date
+    createAt: Date,
+    updateAt: Date
 }
 
 export interface ICreateMangaRequest {
@@ -28,7 +28,7 @@ export interface ICreateMangaRequest {
 }
 
 export interface IUpdateMangaRequest extends Partial<ICreateMangaRequest> {
-    formerSlug: string
+    slug: string
 }
 
 export interface IBulkActiveRequest {
@@ -37,4 +37,16 @@ export interface IBulkActiveRequest {
 
 export interface IGetMangaPaginationRequest extends IPaginationRequest {
     type: number
+}
+
+export interface ICreateMangaForm {
+    categoryIds: string[];
+    name: string;
+    description: string;
+    coverImg: string;
+    isDone?: boolean;
+}
+
+export interface IGetMangaByAuthorIdRequest extends IPaginationRequest{
+    authorId: string,
 }

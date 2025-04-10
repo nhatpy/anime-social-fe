@@ -25,6 +25,7 @@ import {
   TestWebSocket,
   EmailVerificationReminder,
   PaymentSuccess,
+  ChapterCreateDetail,
 } from "../pages";
 import {
   DashboardCategory,
@@ -141,12 +142,16 @@ export const router = createBrowserRouter([
         element: <MangaCreateDetail />,
       },
       {
-        path: "/test-websocket",
-        element: <TestWebSocket />,
+        path: path.create_chapter_detail,
+        element: <ChapterCreateDetail />,
       },
       {
         path: path.payment_success,
         element: <PaymentSuccess />,
+      },
+      {
+        path: "/test-websocket",
+        element: <TestWebSocket />,
       },
     ],
   },

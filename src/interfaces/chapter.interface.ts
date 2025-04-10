@@ -6,28 +6,33 @@ export interface IChapter {
     content: string[],
     mangaSlug: string,
     comments: IComment[],
-    createdAt: Date,
-    updatedAt: Date
+    createAt: Date,
+    updateAt: Date
 }
 
 export interface ISimpleChapter {
     chapterNumber: number,
-    createdAt: Date,
-    updatedAt: Date
+    createAt: Date,
+    updateAt: Date
 }
 
 export interface ICreateChapterRequest {
-    mangaId: string,
+    mangaSlug: string,
     chapterNumber: number,
     content: string[]
 }
 
 export interface IUpdateChapterRequest extends Partial<ICreateChapterRequest> {
-    formerChapterNumber: number
-    mangaId: string
+    mangaSlug: string,
+    chapterNumber: number,
 }
 
 export interface IRequestWithChapterNumber {
-    mangaId: string,
+    mangaSlug: string,
     chapterNumber: number
+}
+
+export interface IChapterFormData {
+    chapterNumber: number,
+    images: string[]
 }

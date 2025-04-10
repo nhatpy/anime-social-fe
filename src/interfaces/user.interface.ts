@@ -8,8 +8,8 @@ export interface IUser {
     role: string[],
     isWarning: boolean,
     isBanned: boolean,
-    createdAt: Date,
-    updatedAt: Date
+    createAt: Date,
+    updateAt: Date
 }
 
 export interface IUpdateUserRequest {

@@ -2,8 +2,8 @@ export interface ICategory {
     id: string,
     name: string, 
     description: string,
-    createdAt: Date,
-    updatedAt: Date
+    createAt: Date,
+    updateAt: Date
 }
 export interface ICreateCategoryRequest {
     name: string,
@@ -12,4 +12,9 @@ export interface ICreateCategoryRequest {
 
 export interface IUpdateCategoryRequest extends Partial<ICreateCategoryRequest> {
     id: string
+}
+
+export interface ICategoryOption {
+    label: string;
+    value: string;
 }

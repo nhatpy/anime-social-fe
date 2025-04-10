@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { icons } from "../../utils/icons";
 import { uploadToCloudinary } from "../../utils/helpers";
 import { createChapterSchema } from "../../utils/constants";
+import { useNavigate, useParams } from "react-router-dom";
+import { useApi } from "../../hooks";
+import { IChapterFormData, ICreateChapterRequest } from "../../interfaces";
+import { chapterApi } from "../../apis";
 
 export const CreateChapter = () => {
+  const { "manga-slug": slug } = useParams();
   const {
     control,
     handleSubmit,
@@ -20,6 +25,8 @@ export const CreateChapter = () => {
     defaultValues: { images: [] },
   });
 
+  const navigate = useNavigate();
+  const { loading, errorMessage, callApi: callChapterApis } = useApi<void>();
   const [uploading, setUploading] = useState(false);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,21 +54,38 @@ export const CreateChapter = () => {
     );
   };
 
-  interface ChapterData {
-    chapterNumber: number;
-    images: string[];
-  }
-
-  const onSubmit = (data: ChapterData) => {
-    console.log("Dữ liệu Chapter:", data);
+  const handleCreateChapter = async (request: IChapterFormData) => {
+    await callChapterApis(async () => {
+      const sendData: ICreateChapterRequest = {
+        mangaSlug: slug || "",
+        chapterNumber: request.chapterNumber,
+        content: request.images,
+      };
+      const { data } = await chapterApi.createChapter(sendData);
+      if (data) {
+        message.success(data.message, 3);
+        navigate(
+          `/manga/create-manga/${slug}/create-chapter/${request.chapterNumber}`
+        );
+      }
+    });
   };
 
+  useEffect(() => {
+    if (errorMessage) {
+      message.error(errorMessage, 3);
+    }
+  }, [errorMessage]);
+
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md my-14">
       <h2 className="text-2xl font-bold mb-4 text-blue-600">Thêm Chapter</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+      <form
+        onSubmit={handleSubmit(handleCreateChapter)}
+        className="flex flex-col gap-4"
+      >
         <div>
-          <label className="block font-medium">Số thứ tự chapter:</label>
+          <label className="block font-medium mb-2">Số thứ tự chapter:</label>
           <Controller
             name="chapterNumber"
             control={control}
@@ -72,7 +96,7 @@ export const CreateChapter = () => {
           <p className="text-red-500">{errors.chapterNumber?.message}</p>
         </div>
         <div>
-          <label className="block font-medium">Danh sách ảnh:</label>
+          <label className="block font-medium mb-2">Danh sách ảnh:</label>
           <input
             type="file"
             multiple
@@ -107,6 +131,7 @@ export const CreateChapter = () => {
           htmlType="submit"
           type="primary"
           className="mt-4 w-fit text-base"
+          loading={loading}
         >
           Thêm Chapter
         </Button>

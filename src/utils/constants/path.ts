@@ -37,11 +37,12 @@ export const path = {
     admin_manage_category: "/admin/manage-category",
 
     //for manga detail
-    manga_detail: "/manga/:manga-name",
-    chapter_detail: "/manga/:manga-name/:chapter-number",
+    manga_detail: "/manga/:manga-slug",
+    chapter_detail: "/manga/:manga-slug/:chapter-number",
 
     //for create manga
     create_manga: "/manga/create-manga",
-    manga_create_detail: "/manga/create-manga/:manga-name",
-    create_chapter: "/manga/create-manga/:manga-name/create-chapter",
+    manga_create_detail: "/manga/create-manga/:manga-slug",
+    create_chapter: "/manga/create-manga/:manga-slug/create-chapter",
+    create_chapter_detail: "/manga/create-manga/:manga-slug/create-chapter/:chapter-number",
 }
