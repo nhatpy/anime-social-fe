@@ -17,7 +17,7 @@ export const followListApi = {
                 return acc;
             }, {} as Record<string, string>)
         ).toString();
-        const url = `follow/${userId}/get-paging/?${queryString}`;
+        const url = `follow/${userId}/get-paging?${queryString}`;
         return await axiosClient.get(url);
     }
 }

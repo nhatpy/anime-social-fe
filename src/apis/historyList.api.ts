@@ -2,16 +2,8 @@ import { instance as axiosClient } from "../configs";
 import { IHistoryListRequest, IListPagination, IListRequest } from "../interfaces";
 
 export const historyListApi = {
-    checkHistory: async (checkRequest: IListRequest) => {
-        const url = `/history-read/${checkRequest.userId}/check/${checkRequest.mangaId}`;
-        return await axiosClient.get(url);
-    },
-    addToHistory: async ({userId, mangaId, ...rest}: IHistoryListRequest) => {
-        const url = `history-read/${userId}/read/${mangaId}`;
-        return await axiosClient.post(url, rest);
-    },
     updateInHistory: async ({userId, mangaId, ...rest}: IHistoryListRequest) => {
-        const url = `history-read/${userId}/reread/${mangaId}`;
+        const url = `history-read/${userId}/read/${mangaId}`;
         return await axiosClient.patch(url, rest);
     },
     deleteFromHistory: async (deleteRequest: IListRequest) => {
@@ -25,7 +17,7 @@ export const historyListApi = {
                 return acc;
             }, {} as Record<string, string>)
         ).toString();
-        const url = `history-read/${userId}/get-paging/?${queryString}`;
+        const url = `history-read/${userId}/get-paging?${queryString}`;
         return await axiosClient.get(url);
     }
 }

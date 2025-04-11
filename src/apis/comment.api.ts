@@ -1,5 +1,5 @@
 import { instance as axiosClient } from "../configs";
-import { IPostCommentRequest, IUpdateCommentRequest } from "../interfaces";
+import { IGetPagingComment, IPostCommentRequest, IUpdateCommentRequest } from "../interfaces";
 
 export const commentApi = {
     createComment: async (createComment: IPostCommentRequest) => {
@@ -12,5 +12,15 @@ export const commentApi = {
     updateComment: async ({id, ...rest}: IUpdateCommentRequest) => {
         const url = `/comment/update/${id}`;
         return await axiosClient.patch(url, rest);
+    },
+    getComment: async ({chapterId, ...rest}: IGetPagingComment) => {
+        const queryString = new URLSearchParams(
+            Object.entries(rest).reduce((acc, [key, value]) => {
+                acc[key] = String(value);
+                return acc;
+            }, {} as Record<string, string>)
+        ).toString();
+        const url = `/comment/get/${chapterId}?${queryString}`;
+        return await axiosClient.get(url);
     }
 }

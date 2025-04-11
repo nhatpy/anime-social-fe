@@ -19,12 +19,13 @@ export const mangaApi = {
     },
     getPagination: async (params: IGetMangaPaginationRequest) => {
         const queryString = new URLSearchParams(
-            Object.entries(params).reduce((acc, [key, value]) => {
-                acc[key] = String(value);
-                return acc;
-            }, {} as Record<string, string>)
-        ).toString();
-        const url = `manga/get/get-paging/?${queryString}`;
+        Object.entries(params).reduce((acc, [key, value]) => {
+          if (typeof value !== "number" && !value) return acc;
+          acc[key] = String(value);
+          return acc;
+        }, {} as Record<string, string>)
+      ).toString();
+        const url = `manga/get/get-paging?${queryString}`;
         return await axiosClient.get(url);
     },
     getMangaByAuthorId: async ({authorId, ...params}: IGetMangaByAuthorIdRequest) => {
@@ -36,5 +37,8 @@ export const mangaApi = {
         ).toString();
         const url = `manga/get/get-by-author/${authorId}?${queryString}`;
         return await axiosClient.get(url); 
+    },
+    getTopDayManga: async () => {
+        return await axiosClient.get('/manga/get/get-top-manga')
     }
 }

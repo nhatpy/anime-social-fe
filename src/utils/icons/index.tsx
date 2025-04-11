@@ -7,7 +7,6 @@ import {
   FaHeart,
   FaComment,
   FaEye,
-  FaChevronUp,
   FaBars,
   FaBook,
   FaSignOutAlt,
@@ -30,12 +29,13 @@ import {
 } from "react-icons/io5";
 
 import { LuUserRound } from "react-icons/lu";
-import { IoIosArrowDown, IoMdTime } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp, IoMdTime } from "react-icons/io";
 import {
   RiLockPasswordLine,
   RiDeleteBinLine,
   RiErrorWarningFill,
   RiUploadCloud2Fill,
+  RiNotificationBadgeFill,
 } from "react-icons/ri";
 import { MdCategory, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { GrUserAdmin } from "react-icons/gr";
@@ -59,7 +59,7 @@ export const icons = {
   comment: <FaComment />,
   delete: <RiDeleteBinLine />,
   close: <IoClose />,
-  up: <FaChevronUp />,
+  up: <IoIosArrowUp />,
   diamond: <IoDiamondOutline />,
   chapter: <FaBars />,
   book: <FaBook />,
@@ -76,4 +76,5 @@ export const icons = {
   category: <MdCategory />,
   update: <MdOutlineTipsAndUpdates />,
   admin: <GrUserAdmin />,
+  new: <RiNotificationBadgeFill />,
 };

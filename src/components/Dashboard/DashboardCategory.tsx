@@ -10,12 +10,17 @@ import {
   Table,
 } from "antd";
 import { icons } from "../../utils/icons";
-import { ICategory, ICreateCategoryRequest } from "../../interfaces";
+import {
+  ICategory,
+  ICategoryForm,
+  ICreateCategoryRequest,
+} from "../../interfaces";
 import { createCategorySchema } from "../../utils/constants";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useApi, useBoolean } from "../../hooks";
 import { categoryApi } from "../../apis";
 import { UpdateCategoryModal } from "..";
+import { convertToSlug } from "../../utils/helpers";
 
 export const DashboardCategory = () => {
   const { errorMessage, loading, callApi: callCategoryApis } = useApi<void>();
@@ -47,9 +52,13 @@ export const DashboardCategory = () => {
     setIsUpdateModalOpen(false);
   };
 
-  const handleCreateCategory = async (request: ICreateCategoryRequest) => {
+  const handleCreateCategory = async (request: ICategoryForm) => {
     await callCategoryApis(async () => {
-      const { data } = await categoryApi.createCategory(request);
+      const sendData: ICreateCategoryRequest = {
+        slug: convertToSlug(request.name),
+        ...request,
+      };
+      const { data } = await categoryApi.createCategory(sendData);
       if (data) {
         message.success(data.message, 3);
         categoryChanged();
@@ -125,7 +134,9 @@ export const DashboardCategory = () => {
       key: "name",
       width: "25%",
       render: (name: string) => (
-        <p className="truncate font-medium max-w-xs">{name}</p>
+        <p className="truncate font-medium max-w-xs">
+          {name.charAt(0).toUpperCase() + name.slice(1)}
+        </p>
       ),
     },
     {

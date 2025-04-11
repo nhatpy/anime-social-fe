@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Layout, Input, Badge, Dropdown, Menu } from "antd";
+import { Layout, Input, Badge, Dropdown } from "antd";
 
 import { icons } from "../../utils/icons";
-import { items, ItemsLogin, menuItemNavbar } from "../../utils/constants";
+import { items, ItemsLogin } from "../../utils/constants";
 import { useAuthStore } from "../../utils/stores";
+import { CustomNavbar } from "../../components";
 
 const { Header: AntdHeader } = Layout;
 
@@ -52,11 +53,7 @@ export const Header = () => {
       </AntdHeader>
       <div className="sticky top-0 left-0 z-50">
         <div className="flex justify-center items-center w-full text-base bg-white">
-          <Menu
-            mode="horizontal"
-            items={menuItemNavbar}
-            className="menu-centered"
-          />
+          <CustomNavbar />
         </div>
       </div>
     </>

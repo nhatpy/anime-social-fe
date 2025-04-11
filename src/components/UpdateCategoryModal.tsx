@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { ICategory, ICreateCategoryRequest } from "../interfaces";
+import { ICategory, ICategoryForm } from "../interfaces";
 import { Button, Input, message, Modal } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useApi } from "../hooks";
 import { createCategorySchema } from "../utils/constants";
 import { categoryApi } from "../apis";
+import { convertToSlug } from "../utils/helpers";
 
 type UpdateCategoryModalProps = {
   isOpen: boolean;
@@ -34,10 +35,11 @@ export const UpdateCategoryModal: React.FC<UpdateCategoryModalProps> = ({
     },
   });
 
-  const handleUpdateCategory = async (request: ICreateCategoryRequest) => {
+  const handleUpdateCategory = async (request: ICategoryForm) => {
     await callCategoryApis(async () => {
       const sendData = {
         id: category.id,
+        slug: convertToSlug(request.name),
         ...request,
       };
       const { data } = await categoryApi.updateCategory(sendData);

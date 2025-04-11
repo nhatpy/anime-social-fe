@@ -36,7 +36,11 @@ export interface IBulkActiveRequest {
 }
 
 export interface IGetMangaPaginationRequest extends IPaginationRequest {
-    type: number
+    type: number,
+    searchQuery?: string,
+    category?: string,
+    sortBy?: string ,
+    status?: boolean | null,
 }
 
 export interface ICreateMangaForm {

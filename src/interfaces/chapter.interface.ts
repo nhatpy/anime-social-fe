@@ -1,11 +1,9 @@
-import { IComment } from "."
-
 export interface IChapter {
     id: string,
     chapterNumber: number,
     content: string[],
     mangaSlug: string,
-    comments: IComment[],
+    numberOfComment: number,
     createAt: Date,
     updateAt: Date
 }

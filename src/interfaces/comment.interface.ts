@@ -1,4 +1,4 @@
-import { IUser } from ".";
+import { IPaginationRequest, IUser } from ".";
 
 export interface IComment {
     id: string,
@@ -18,4 +18,8 @@ export interface IPostCommentRequest {
 export interface IUpdateCommentRequest {
     id: string
     content?: string
+}
+
+export interface IGetPagingComment extends IPaginationRequest {
+    chapterId: string
 }
