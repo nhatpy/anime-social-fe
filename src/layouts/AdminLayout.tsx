@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { icons } from "../utils/icons";
 import { LogoutFunction } from "../utils/helpers";
@@ -9,6 +9,17 @@ const { Sider, Content, Footer } = Layout;
 export const AdminLayout = () => {
   const { handleLogout } = LogoutFunction();
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+
+  const getSelectedKey = () => {
+    if (location.pathname.includes("/admin/manage-user")) return "users";
+    if (location.pathname.includes("/admin/manage-category"))
+      return "categories";
+    if (location.pathname.includes("/admin/manage-manga")) return "stories";
+    if (location.pathname === "/admin") return "dashboard";
+    return "";
+  };
+
   const menuItems = [
     {
       key: "dashboard",
@@ -55,7 +66,7 @@ export const AdminLayout = () => {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={["dashboard"]}
+          selectedKeys={[getSelectedKey()]}
           mode="inline"
           items={menuItems}
           className="text-base"

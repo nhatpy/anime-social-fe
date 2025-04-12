@@ -1,12 +1,10 @@
 import { IManga, IPaginationRequest } from ".";
 
-export interface IFollowList { 
-    id: string,
-    manga: IManga,
+export interface IFollowManga { 
+    manga: IManga
 }
 
-export interface IHistoryList {
-    userId: string,
+export interface IHistoryManga {
     lastReadAtDate: Date,
     lastReadAtChapter: number,
     manga: IManga

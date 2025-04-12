@@ -5,6 +5,7 @@ import { icons } from "../../utils/icons";
 import { items, ItemsLogin } from "../../utils/constants";
 import { useAuthStore } from "../../utils/stores";
 import { CustomNavbar } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 const { Header: AntdHeader } = Layout;
 
@@ -24,6 +25,15 @@ export const Header = () => {
   const [notification] = useState(9);
   const { isLogin } = useAuthStore();
   const itemsLogin = ItemsLogin();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      navigate(`/search?searchQuery=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery("");
+    }
+  };
 
   return (
     <>
@@ -33,7 +43,10 @@ export const Header = () => {
           <Input
             placeholder="Tìm truyện"
             prefix={icons.search}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-[25%] rounded-none ml-5"
+            onPressEnter={handleSearch}
           />
           <Badge count={notification} overflowCount={9}>
             <div className="text-white text-xl">{icons.notification}</div>

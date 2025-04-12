@@ -48,7 +48,7 @@ export const CustomNavbar = () => {
     { label: "TÌM TRUYỆN", to: "/search" },
   ];
   const menuItems2 = [
-    { label: "MANGA", to: "/#" },
+    { label: "ANIME", to: "/#" },
     { label: "MANHUA", to: "/#" },
     { label: "MANHWA", to: "/#" },
   ];

@@ -37,9 +37,9 @@ export interface IBulkActiveRequest {
 
 export interface IGetMangaPaginationRequest extends IPaginationRequest {
     type: number,
-    searchQuery?: string,
-    category?: string,
-    sortBy?: string ,
+    searchQuery?: string | null,
+    categorySlug?: string | null,
+    sortBy?: string | null,
     status?: boolean | null,
 }
 

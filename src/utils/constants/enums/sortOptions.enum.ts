@@ -1,0 +1,10 @@
+export enum SortOptions {
+    UPDATE_AT = "UPDATEAT",
+    CREATE_AT = "CREATEAT",
+    FOLLOW = "FOLLOW",
+    VIEW = "VIEW",
+    NUMBER_OF_COMMENT = "NUMBEROFCOMMENT",
+    NUMBER_OF_CHAPTER = "NUMBEROFCHAPTER",
+    NAME = "NAME",
+    ALL = ""
+}

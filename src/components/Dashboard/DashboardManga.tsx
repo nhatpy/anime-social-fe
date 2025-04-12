@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, message, Pagination, Popover, Table } from "antd";
 
 import { icons } from "../../utils/icons";
@@ -13,6 +13,7 @@ import { mangaApi } from "../../apis";
 import { useAuthStore } from "../../utils/stores";
 
 export const DashboardManga = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [mangas, setMangas] = useState<IManga[]>([]);
   const { loading, errorMessage, callApi: callMangaApis } = useApi<void>();
   const { value: isMangaChanged, toggle: toggleMangaChanged } =
@@ -23,6 +24,11 @@ export const DashboardManga = () => {
   const [page, setPage] = useState(1);
   const pageSize = 5;
   const [total, setTotal] = useState(0);
+
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams({ page: page.toString() });
+  };
 
   const handleUpdateManga = (slug: string) => {
     navigate(`/manga/create-manga/${slug}`);
@@ -60,10 +66,12 @@ export const DashboardManga = () => {
 
   useEffect(() => {
     const fetchMangas = async () => {
+      const currentPage = parseInt(searchParams.get("page") || "1", 10);
+      setPage(currentPage);
       await callMangaApis(async () => {
         const pagingRequest: IGetMangaByAuthorIdRequest = {
           authorId: currentUser?.id || "",
-          page: page,
+          page: currentPage,
           size: pageSize,
         };
         const { data } = await mangaApi.getMangaByAuthorId(pagingRequest);
@@ -74,15 +82,13 @@ export const DashboardManga = () => {
       });
     };
     fetchMangas();
-  }, [page, isMangaChanged]);
+  }, [searchParams, isMangaChanged]);
 
   useEffect(() => {
     if (errorMessage) {
       message.error(errorMessage, 3);
     }
   }, [errorMessage]);
-
-  console.log(mangas);
 
   const columns = [
     {
@@ -170,6 +176,7 @@ export const DashboardManga = () => {
                 className="w-full"
                 rowClassName="hover:bg-gray-100 cursor-pointer"
                 rowKey={"id"}
+                loading={loading}
               />
             </div>
             <div className="flex justify-center items-center w-full">
@@ -179,7 +186,7 @@ export const DashboardManga = () => {
                 showSizeChanger={false}
                 pageSize={pageSize}
                 current={page}
-                onChange={(page) => setPage(page)}
+                onChange={handleChangePage}
                 className="ant-pagination-item-active:border-blue-600 ant-pagination-item-active:bg-blue-600"
               />
             </div>

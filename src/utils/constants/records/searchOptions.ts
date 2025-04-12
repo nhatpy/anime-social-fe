@@ -1,16 +1,18 @@
-import { MangaStatus } from "../enums"
+import { MangaStatus, SortOptions } from "../enums"
 
 export const statusOptions: Record<MangaStatus, boolean | null> = {
     [MangaStatus.ALL]: null,
-    [MangaStatus.COMPLETED]: true,
-    [MangaStatus.ONGOING]: false,
+    [MangaStatus.TRUE]: true,
+    [MangaStatus.FALSE]: false,
 }
 
-export const sortByOptions: Record<string, string> = {
-    "Ngày cập nhật": "updateAt",
-    "Truyện mới": "createAt",
-    "Top ngày": "topDay",
-    "Theo dõi": "follow",
-    "Bình luận": "numberOfComment",
-    "Số chapter": "numberOfChapter",
+export const sortByOptions: Record<SortOptions, string | null> = {
+    [SortOptions.UPDATE_AT]: "updateAt",
+    [SortOptions.CREATE_AT]: "createAt",
+    [SortOptions.FOLLOW]: "follow",
+    [SortOptions.VIEW]: "view",
+    [SortOptions.NUMBER_OF_COMMENT]: "numberOfComment",
+    [SortOptions.NUMBER_OF_CHAPTER]: "numberOfChapter",
+    [SortOptions.NAME]: "name",
+    [SortOptions.ALL]: null,
 }

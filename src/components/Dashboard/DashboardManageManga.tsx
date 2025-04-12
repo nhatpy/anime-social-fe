@@ -1,11 +1,19 @@
 import { Key, useEffect, useState } from "react";
 import { Button, message, Pagination, Table } from "antd";
 import { icons } from "../../utils/icons";
-import { IBulkActiveRequest, IManga, ISimpleChapter } from "../../interfaces";
+import {
+  IBulkActiveRequest,
+  IGetMangaPaginationRequest,
+  IManga,
+  ISimpleChapter,
+} from "../../interfaces";
 import { useApi, useBoolean } from "../../hooks";
 import { mangaApi } from "../../apis";
+import { useSearchParams } from "react-router-dom";
+import { sortByOptions, SortOptions } from "../../utils/constants";
 
 export const DashboardManageManga = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [mangas, setMangas] = useState<IManga[]>([]);
   const { loading, errorMessage, callApi: callMangaApis } = useApi<void>();
   const [page, setPage] = useState(1);
@@ -23,6 +31,11 @@ export const DashboardManageManga = () => {
     getCheckboxProps: (record: { isActive: boolean }) => ({
       disabled: record.isActive,
     }),
+  };
+
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams({ page: page.toString() });
   };
 
   const handleConfirm = async () => {
@@ -50,11 +63,14 @@ export const DashboardManageManga = () => {
   };
   useEffect(() => {
     const fetchUsers = async () => {
+      const currentPage = parseInt(searchParams.get("page") || "1", 10);
+      setPage(currentPage);
       await callMangaApis(async () => {
-        const params = {
+        const params: IGetMangaPaginationRequest = {
           type: 0,
-          page: page,
+          page: currentPage,
           size: pageSize,
+          sortBy: sortByOptions[SortOptions.NAME],
         };
         const { data } = await mangaApi.getPagination(params);
         if (data) {
@@ -64,7 +80,7 @@ export const DashboardManageManga = () => {
       });
     };
     fetchUsers();
-  }, [isMangasChanged, page]);
+  }, [isMangasChanged, searchParams]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -185,6 +201,7 @@ export const DashboardManageManga = () => {
           scroll={{ x: "100%" }}
           className="w-full"
           rowKey={"id"}
+          loading={loading}
         />
         <div className="flex justify-center mt-6">
           <Pagination
@@ -193,7 +210,7 @@ export const DashboardManageManga = () => {
             showSizeChanger={false}
             pageSize={pageSize}
             current={page}
-            onChange={(page) => setPage(page)}
+            onChange={handleChangePage}
             className="ant-pagination-item-active:border-blue-600 ant-pagination-item-active:bg-blue-600"
           />
         </div>

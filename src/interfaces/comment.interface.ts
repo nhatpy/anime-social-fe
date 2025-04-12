@@ -15,11 +15,10 @@ export interface IPostCommentRequest {
     content: string
 }
 
-export interface IUpdateCommentRequest {
-    id: string
-    content?: string
-}
-
 export interface IGetPagingComment extends IPaginationRequest {
     chapterId: string
+}
+
+export interface ICommentFormData {
+    comment: string
 }

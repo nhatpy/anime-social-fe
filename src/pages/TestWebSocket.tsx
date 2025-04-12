@@ -1,8 +1,13 @@
 import { useApi } from "../hooks";
-// import {useWebSocket } from "../hooks";
+// import { useWebSocket } from "../hooks";
 
 import { IGetMangaPaginationRequest } from "../interfaces";
-import { MangaStatus, sortByOptions, statusOptions } from "../utils/constants";
+import {
+  //   MangaStatus,
+  //   sortByOptions,
+  //   SortOptions,
+  statusOptions,
+} from "../utils/constants";
 
 export const TestWebSocket = () => {
   // const messageUser1 = useWebSocket({
@@ -28,6 +33,13 @@ export const TestWebSocket = () => {
       console.log(queryString);
     });
   };
+  // const variable = "NAME";
+  // console.log(SortOptions.NAME);
+  // console.log(sortByOptions[variable]);
+  // console.log(typeof sortByOptions[variable]);
+  console.log(statusOptions["FALSE"]?.toString());
+  // const variable = "false";
+  // console.log(Boolean(variable));
   return (
     <div>
       {/* <p>Notifications for dolongnhat0301@gmail.com:</p>
@@ -41,11 +53,10 @@ export const TestWebSocket = () => {
           handleGetPaginationManga({
             type: 0,
             page: 1,
-            size: 5,
-            searchQuery: "",
-            category: "",
-            sortBy: sortByOptions["Ngày cập nhật"],
-            status: statusOptions[MangaStatus.COMPLETED],
+            size: 0,
+            searchQuery: "đô thị",
+            categorySlug: "",
+            status: null,
           })
         }
       >

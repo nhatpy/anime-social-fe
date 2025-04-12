@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom"; // thêm useLocation
 import { Tabs, TabsProps } from "antd";
 
 import { CustomBreadcrumb } from "../components";
@@ -7,11 +7,21 @@ import { LogoutFunction } from "../utils/helpers";
 
 export const DashboardLayout = () => {
   const { handleLogout } = LogoutFunction();
+  const location = useLocation();
 
   const breadcrumItems = [
     { title: <Link to="/">Trang chủ</Link> },
     { title: "Thông tin chung" },
   ];
+
+  const getActiveKey = () => {
+    if (location.pathname.includes("/dashboard/gem")) return "user-gem";
+    if (location.pathname.includes("/dashboard/manga")) return "user-manga";
+    if (location.pathname.includes("/dashboard/change-password"))
+      return "user-change-password";
+    if (location.pathname.includes("/dashboard")) return "user-info";
+    return "user-info";
+  };
 
   const userItems: TabsProps["items"] = [
     {
@@ -86,7 +96,7 @@ export const DashboardLayout = () => {
         <div className="flex flex-col justify-center w-full">
           <CustomBreadcrumb items={breadcrumItems} />
         </div>
-        <Tabs tabPosition={"left"} items={userItems} />
+        <Tabs tabPosition="left" items={userItems} activeKey={getActiveKey()} />
       </div>
     </div>
   );

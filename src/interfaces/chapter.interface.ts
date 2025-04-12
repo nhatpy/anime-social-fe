@@ -3,6 +3,8 @@ export interface IChapter {
     chapterNumber: number,
     content: string[],
     mangaSlug: string,
+    mangaName: string,
+    numberOfChapter: number[],
     numberOfComment: number,
     createAt: Date,
     updateAt: Date
@@ -11,7 +13,8 @@ export interface IChapter {
 export interface ISimpleChapter {
     chapterNumber: number,
     createAt: Date,
-    updateAt: Date
+    updateAt: Date,
+    numberOfComment: number,
 }
 
 export interface ICreateChapterRequest {

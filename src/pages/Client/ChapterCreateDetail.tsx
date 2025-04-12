@@ -12,7 +12,7 @@ import {
   IUpdateChapterRequest,
 } from "../../interfaces";
 import { chapterApi } from "../../apis";
-import { Button, Input, message } from "antd";
+import { Button, Input, message, Skeleton } from "antd";
 import { icons } from "../../utils/icons";
 
 export const ChapterCreateDetail = () => {
@@ -57,6 +57,7 @@ export const ChapterCreateDetail = () => {
       setUploading(false);
     }
   };
+
   const removeImage = (index: number) => {
     setValue(
       "images",
@@ -126,57 +127,59 @@ export const ChapterCreateDetail = () => {
         <h2 className="text-2xl font-bold mb-4 text-blue-600">
           Thông tin Chapter
         </h2>
-        <Button
-          shape="round"
-          icon={icons.delete}
-          className="bg-red-600 text-white hover:bg-red-700"
-          onClick={() => handleDeleteChapter()}
-        >
-          Xóa Chapter
-        </Button>
+        {!loading && chapter && (
+          <Button
+            shape="round"
+            icon={icons.delete}
+            className="bg-red-600 text-white hover:bg-red-700"
+            onClick={handleDeleteChapter}
+          >
+            Xóa Chapter
+          </Button>
+        )}
       </div>
-      <form
-        onSubmit={handleSubmit(handleUpdateChapter)}
-        className="flex flex-col gap-4"
-      >
-        <div>
-          <label className="block font-medium mb-2">Số thứ tự chapter</label>
-          <Controller
-            name="chapterNumber"
-            control={control}
-            render={({ field }) => (
-              <Input
-                {...field}
-                type="number"
-                className="mt-1"
-                disabled={true}
-              />
-            )}
-          />
-          <p className="text-red-500">{errors.chapterNumber?.message}</p>
-        </div>
-        <div>
-          <label className="block font-medium mb-2">Danh sách ảnh</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            className="block w-full border border-gray-300 p-2 rounded-md"
-            onChange={handleFileChange}
-            disabled={uploading}
-          />
-          <p className="text-red-500">{errors.images?.message}</p>
-        </div>
-        <div className="mt-2 space-y-2">
-          {chapter &&
-            watch("images").map((img: string, index: number) => (
+
+      {loading || !chapter ? (
+        <Skeleton active paragraph={{ rows: 6 }} />
+      ) : (
+        <form
+          onSubmit={handleSubmit(handleUpdateChapter)}
+          className="flex flex-col gap-4"
+        >
+          <div>
+            <label className="block font-medium mb-2">Số thứ tự chapter</label>
+            <Controller
+              name="chapterNumber"
+              control={control}
+              render={({ field }) => (
+                <Input {...field} type="number" disabled={true} />
+              )}
+            />
+            <p className="text-red-500">{errors.chapterNumber?.message}</p>
+          </div>
+
+          <div>
+            <label className="block font-medium mb-2">Danh sách ảnh</label>
+            <input
+              type="file"
+              multiple
+              accept="image/*"
+              className="block w-full border border-gray-300 p-2 rounded-md"
+              onChange={handleFileChange}
+              disabled={uploading}
+            />
+            <p className="text-red-500">{errors.images?.message}</p>
+          </div>
+
+          <div className="mt-2 space-y-2">
+            {watch("images").map((img: string, index: number) => (
               <div
                 key={index}
                 className="flex items-center gap-2 border p-2 rounded-md"
               >
                 <img
                   src={img}
-                  alt={`Chapter Image ${index}`}
+                  alt={`${chapter?.chapterNumber}-${index}`}
                   className="w-full h-full object-cover rounded-md"
                 />
                 <Button
@@ -187,17 +190,19 @@ export const ChapterCreateDetail = () => {
                 />
               </div>
             ))}
-        </div>
-        <Button
-          htmlType="submit"
-          type="primary"
-          className="mt-4 w-fit text-base"
-          loading={loading}
-          disabled={!isDirty}
-        >
-          Cập nhật Chapter
-        </Button>
-      </form>
+          </div>
+
+          <Button
+            htmlType="submit"
+            type="primary"
+            className="mt-4 w-fit text-base"
+            loading={loading}
+            disabled={!isDirty}
+          >
+            Cập nhật Chapter
+          </Button>
+        </form>
+      )}
     </div>
   );
 };

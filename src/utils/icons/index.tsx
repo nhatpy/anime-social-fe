@@ -36,6 +36,7 @@ import {
   RiErrorWarningFill,
   RiUploadCloud2Fill,
   RiNotificationBadgeFill,
+  RiCharacterRecognitionFill,
 } from "react-icons/ri";
 import { MdCategory, MdOutlineTipsAndUpdates } from "react-icons/md";
 import { GrUserAdmin } from "react-icons/gr";
@@ -77,4 +78,5 @@ export const icons = {
   update: <MdOutlineTipsAndUpdates />,
   admin: <GrUserAdmin />,
   new: <RiNotificationBadgeFill />,
+  character: <RiCharacterRecognitionFill />,
 };

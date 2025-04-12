@@ -41,7 +41,7 @@ export const CreateManga = () => {
 
   const handleGetCategoryOptions = (categories: ICategory[]) => {
     const options = categories.map((category) => ({
-      label: category.name,
+      label: category.name.charAt(0).toUpperCase() + category.name.slice(1),
       value: category.id,
     }));
     setCategoryOptions(options);

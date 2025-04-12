@@ -19,5 +19,9 @@ export const followListApi = {
         ).toString();
         const url = `follow/${userId}/get-paging?${queryString}`;
         return await axiosClient.get(url);
+    },
+    checkFollowed: async (checkRequest: IListRequest) => {
+        const url = `/follow/${checkRequest.userId}/check/${checkRequest.mangaId}`;
+        return await axiosClient.get(url);
     }
 }

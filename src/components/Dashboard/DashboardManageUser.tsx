@@ -4,8 +4,10 @@ import { IUser } from "../../interfaces";
 import { useEffect, useState } from "react";
 import { useApi, useBoolean } from "../../hooks";
 import { userApi } from "../../apis";
+import { useSearchParams } from "react-router-dom";
 
 export const DashboardManageUser = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [users, setUsers] = useState<IUser[]>([]);
   const { loading, errorMessage, callApi: callUserApis } = useApi<void>();
   const [page, setPage] = useState(1);
@@ -24,6 +26,11 @@ export const DashboardManageUser = () => {
     });
   };
 
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams({ page: page.toString() });
+  };
+
   const handleDeleteUser = async (userId: string) => {
     await callUserApis(async () => {
       const { data } = await userApi.deleteUser(userId);
@@ -36,9 +43,11 @@ export const DashboardManageUser = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      const currentPage = parseInt(searchParams.get("page") || "1", 10);
+      setPage(currentPage);
       await callUserApis(async () => {
         const params = {
-          page: page,
+          page: currentPage,
           size: pageSize,
         };
         const { data } = await userApi.getPagination(params);
@@ -49,7 +58,7 @@ export const DashboardManageUser = () => {
       });
     };
     fetchUsers();
-  }, [isUserChanged, page]);
+  }, [searchParams, isUserChanged]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -175,6 +184,7 @@ export const DashboardManageUser = () => {
           bordered
           scroll={{ x: "100%" }}
           rowKey={"id"}
+          loading={loading}
         />
 
         <div className="flex justify-center mt-6">
@@ -184,7 +194,7 @@ export const DashboardManageUser = () => {
             showSizeChanger={false}
             pageSize={pageSize}
             current={page}
-            onChange={(page) => setPage(page)}
+            onChange={handleChangePage}
             className="ant-pagination-item-active:border-blue-600 ant-pagination-item-active:bg-blue-600"
           />
         </div>

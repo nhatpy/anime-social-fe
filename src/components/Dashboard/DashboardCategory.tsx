@@ -21,8 +21,10 @@ import { useApi, useBoolean } from "../../hooks";
 import { categoryApi } from "../../apis";
 import { UpdateCategoryModal } from "..";
 import { convertToSlug } from "../../utils/helpers";
+import { useSearchParams } from "react-router-dom";
 
 export const DashboardCategory = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { errorMessage, loading, callApi: callCategoryApis } = useApi<void>();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [page, setPage] = useState(1);
@@ -50,6 +52,11 @@ export const DashboardCategory = () => {
 
   const handleCancelUpdate = () => {
     setIsUpdateModalOpen(false);
+  };
+
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams({ page: page.toString() });
   };
 
   const handleCreateCategory = async (request: ICategoryForm) => {
@@ -85,9 +92,11 @@ export const DashboardCategory = () => {
 
   useEffect(() => {
     const fetchCategories = async () => {
+      const currentPage = parseInt(searchParams.get("page") || "1", 10);
+      setPage(currentPage);
       await callCategoryApis(async () => {
         const params = {
-          page: page,
+          page: currentPage,
           size: pageSize,
         };
         const { data } = await categoryApi.getPagination(params);
@@ -98,7 +107,7 @@ export const DashboardCategory = () => {
       });
     };
     fetchCategories();
-  }, [page, isCategoryChanged]);
+  }, [searchParams, isCategoryChanged]);
 
   const content = (item: ICategory) => (
     <>
@@ -189,6 +198,7 @@ export const DashboardCategory = () => {
             pagination={false}
             bordered
             scroll={{ x: "100%" }}
+            loading={loading}
           />
 
           <div className="flex justify-center mt-6">
@@ -198,7 +208,7 @@ export const DashboardCategory = () => {
               showSizeChanger={false}
               pageSize={pageSize}
               current={page}
-              onChange={(page) => setPage(page)}
+              onChange={handleChangePage}
               className="ant-pagination-item-active:border-blue-600 ant-pagination-item-active:bg-blue-600"
             />
           </div>
