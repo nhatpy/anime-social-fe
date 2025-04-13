@@ -1,2 +1,5 @@
-export * from './loginSchema'
-export * from './registerSchema'
+export * from './authSchema'
+export * from './chapterSchema'
+export * from './categorySchema'
+export * from './mangaSchema'
+export * from './commentSchema'

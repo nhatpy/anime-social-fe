@@ -3,43 +3,43 @@ import { Client, Message } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
 type WebSocketHookProps = {
-    userId: string; 
+  userId?: string;
 };
 
 export const useWebSocket = ({ userId }: WebSocketHookProps) => {
-    const [messages, setMessages] = useState<string[] | null>(null);
+  const [messages, setMessages] = useState<string[] | null>(null);
 
-    useEffect(() => {
-        const socket = new SockJS("http://localhost:8080/api/ws");
-        const stompClient = new Client({
-            webSocketFactory: () => socket,
-            reconnectDelay: 5000,
-            onConnect: () => {
-                console.log("successfully connected");
+  useEffect(() => {
+    if (!userId) return;
 
-                stompClient?.subscribe("/topic/notifications", (notification: Message) => {
-                    setMessages((prev) => [...(prev || []), `${notification.body}`]);
-                    console.log("public channel connected!");
-                });
+    const socket = new SockJS("http://localhost:8080/api/ws");
+    const stompClient = new Client({
+      webSocketFactory: () => socket,
+      reconnectDelay: 5000,
+      onConnect: () => {
+        console.log("Connected to WebSocket");
 
-                stompClient?.subscribe(`/queue/notifications/${userId}`, (notification: Message) => {
-                    console.log(notification);
-                    setMessages((prev) => [...(prev || []), `${notification.body}`]);
-                    console.log("private channel connected!");
-                });
-                
-            },
-            onStompError: (error) => {
-                console.error("error when handshake:", error);
-            },
+        stompClient.subscribe("/topic/notifications", (notification: Message) => {
+          setMessages((prev) => [...(prev || []), `${notification.body}`]);
+          console.log("Subscribed to public channel");
         });
 
-        stompClient.activate();
+        stompClient.subscribe(`/queue/notifications/${userId}`, (notification: Message) => {
+          setMessages((prev) => [...(prev || []), `${notification.body}`]);
+          console.log("Subscribed to private channel");
+        });
+      },
+      onStompError: (error) => {
+        console.error("WebSocket error:", error);
+      },
+    });
 
-        return () => {
-            stompClient?.deactivate();
-        };
-    }, [userId]); 
+    stompClient.activate();
 
-    return messages;
+    return () => {
+      stompClient.deactivate();
+    };
+  }, [userId]);
+
+  return messages;
 };

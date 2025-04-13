@@ -1,87 +1,176 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, Input, Modal, Pagination, Popover, Table } from "antd";
+import {
+  Button,
+  Input,
+  message,
+  Modal,
+  Pagination,
+  Popover,
+  Table,
+} from "antd";
 import { icons } from "../../utils/icons";
-
-interface CategoryForm {
-  name: string;
-  description?: string;
-}
-
-const dataSource = [
-  {
-    key: "1",
-    name: "Hành động",
-    description: "description description 1",
-  },
-  { key: "2", name: "Manhua", description: "description description 1" },
-  { key: "3", name: "Manhwa", description: "description description 1" },
-  { key: "4", name: "Manga", description: "description description 1" },
-  { key: "5", name: "Chuyển sinh", description: "description description 1" },
-  { key: "6", name: "Chuyển sinh", description: "description description 1" },
-  { key: "7", name: "Chuyển sinh", description: "description description 1" },
-  { key: "8", name: "Chuyển sinh", description: "description description 1" },
-];
-
-const content = (
-  <div className="flex flex-row gap-2">
-    <Button className="text-purple-400 hover:text-purple-600" type="text">
-      Sửa {icons.update}
-    </Button>
-    <Button className="text-red-600 hover:text-red-800" type="text">
-      Xóa {icons.delete}
-    </Button>
-  </div>
-);
-
-const columns = [
-  {
-    title: <span className="font-semibold">Tên thể loại</span>,
-    dataIndex: "name",
-    key: "name",
-    width: "25%",
-    render: (name: string) => (
-      <p className="truncate font-medium max-w-xs">{name}</p>
-    ),
-  },
-  {
-    title: <span className="font-semibold">Miêu tả thể loại</span>,
-    dataIndex: "description",
-    key: "description",
-    width: "60%",
-    render: (description: string) => (
-      <p className="truncate text-gray-600 max-w-4xl">{description}</p>
-    ),
-  },
-  {
-    title: <span className="font-semibold">Hành động</span>,
-    key: "action",
-    width: "15%",
-    align: "center" as const,
-    render: () => (
-      <Popover content={content} trigger="hover" placement="bottom">
-        <Button type="primary" className="bg-blue-600 hover:bg-blue-700">
-          Hành động
-        </Button>
-      </Popover>
-    ),
-  },
-];
+import {
+  ICategory,
+  ICategoryForm,
+  ICreateCategoryRequest,
+} from "../../interfaces";
+import { createCategorySchema } from "../../utils/constants";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useApi, useBoolean } from "../../hooks";
+import { categoryApi } from "../../apis";
+import { UpdateCategoryModal } from "..";
+import { convertToSlug } from "../../utils/helpers";
+import { useSearchParams } from "react-router-dom";
 
 export const DashboardCategory = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { errorMessage, loading, callApi: callCategoryApis } = useApi<void>();
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const [page, setPage] = useState(1);
+  const pageSize = 7;
+  const [total, setTotal] = useState(0);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { handleSubmit, control, reset } = useForm<CategoryForm>();
+  const { value: isCategoryChanged, toggle: categoryChanged } =
+    useBoolean(false);
+
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(createCategorySchema),
+  });
 
   const handleCancel = () => {
     reset();
     setIsModalOpen(false);
   };
 
-  const onSubmit = (data: CategoryForm) => {
-    console.log("Dữ liệu danh mục:", data);
-    reset();
-    setIsModalOpen(false);
+  const handleCancelUpdate = () => {
+    setIsUpdateModalOpen(false);
   };
+
+  const handleChangePage = (page: number) => {
+    setPage(page);
+    setSearchParams({ page: page.toString() });
+  };
+
+  const handleCreateCategory = async (request: ICategoryForm) => {
+    await callCategoryApis(async () => {
+      const sendData: ICreateCategoryRequest = {
+        slug: convertToSlug(request.name),
+        ...request,
+      };
+      const { data } = await categoryApi.createCategory(sendData);
+      if (data) {
+        message.success(data.message, 3);
+        categoryChanged();
+        handleCancel();
+      }
+    });
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    await callCategoryApis(async () => {
+      const { data } = await categoryApi.deleteCategory(id);
+      if (data) {
+        message.success(data.message, 3);
+        categoryChanged();
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (errorMessage) {
+      message.error(errorMessage, 3);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const currentPage = parseInt(searchParams.get("page") || "1", 10);
+      setPage(currentPage);
+      await callCategoryApis(async () => {
+        const params = {
+          page: currentPage,
+          size: pageSize,
+        };
+        const { data } = await categoryApi.getPagination(params);
+        if (data) {
+          setCategories(data.data);
+          setTotal(data.totalItem);
+        }
+      });
+    };
+    fetchCategories();
+  }, [searchParams, isCategoryChanged]);
+
+  const content = (item: ICategory) => (
+    <>
+      <div className="flex flex-row gap-2">
+        <Button
+          className="text-purple-400 hover:text-purple-600"
+          type="text"
+          onClick={() => setIsUpdateModalOpen(true)}
+        >
+          Sửa {icons.update}
+        </Button>
+        <Button
+          className="text-red-600 hover:text-red-800"
+          type="text"
+          onClick={() => handleDeleteCategory(item.id)}
+        >
+          Xóa {icons.delete}
+        </Button>
+      </div>
+      <UpdateCategoryModal
+        isOpen={isUpdateModalOpen}
+        handleCancel={handleCancelUpdate}
+        toggleChanged={categoryChanged}
+        category={item}
+      />
+    </>
+  );
+
+  const columns = [
+    {
+      title: <span className="font-semibold">Tên thể loại</span>,
+      dataIndex: "name",
+      key: "name",
+      width: "25%",
+      render: (name: string) => (
+        <p className="truncate font-medium max-w-xs">
+          {name.charAt(0).toUpperCase() + name.slice(1)}
+        </p>
+      ),
+    },
+    {
+      title: <span className="font-semibold">Miêu tả thể loại</span>,
+      dataIndex: "description",
+      key: "description",
+      width: "60%",
+      render: (description: string) => (
+        <p className="truncate text-gray-600 max-w-4xl">{description}</p>
+      ),
+    },
+    {
+      title: <span className="font-semibold">Hành động</span>,
+      key: "action",
+      width: "15%",
+      align: "center" as const,
+      render: (item: ICategory) => (
+        <Popover content={content(item)} trigger="click" placement="bottom">
+          <Button type="primary" className="bg-blue-600 hover:bg-blue-700">
+            Hành động
+          </Button>
+        </Popover>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -103,18 +192,23 @@ export const DashboardCategory = () => {
 
           <Table
             className="w-full"
-            dataSource={dataSource}
+            dataSource={categories}
+            rowKey={"id"}
             columns={columns}
             pagination={false}
             bordered
             scroll={{ x: "100%" }}
+            loading={loading}
           />
 
           <div className="flex justify-center mt-6">
             <Pagination
               defaultCurrent={1}
-              total={50}
+              total={total}
               showSizeChanger={false}
+              pageSize={pageSize}
+              current={page}
+              onChange={handleChangePage}
               className="ant-pagination-item-active:border-blue-600 ant-pagination-item-active:bg-blue-600"
             />
           </div>
@@ -130,16 +224,15 @@ export const DashboardCategory = () => {
         width={600}
       >
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(handleCreateCategory)}
           className="flex flex-col gap-4 mt-6"
         >
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Vui lòng nhập tên danh mục!" }}
-            render={({ field, fieldState }) => (
+            render={({ field }) => (
               <div>
-                <label className="block text-gray-700 mb-2">
+                <label className="block text-red-700 font-medium mb-2">
                   Tên danh mục*
                 </label>
                 <Input
@@ -147,11 +240,7 @@ export const DashboardCategory = () => {
                   placeholder="Nhập tên danh mục"
                   className="h-10"
                 />
-                {fieldState.error && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {fieldState.error.message}
-                  </p>
-                )}
+                <span className="text-red-500">{errors.name?.message}</span>
               </div>
             )}
           />
@@ -161,13 +250,18 @@ export const DashboardCategory = () => {
             control={control}
             render={({ field }) => (
               <div>
-                <label className="block text-gray-700 mb-2">Mô tả</label>
+                <label className="block text-red-700 font-medium mb-2">
+                  Mô tả*
+                </label>
                 <Input.TextArea
                   {...field}
                   rows={4}
                   placeholder="Nhập mô tả"
                   className="resize-none"
                 />
+                <span className="text-red-500">
+                  {errors.description?.message}
+                </span>
               </div>
             )}
           />
@@ -183,6 +277,7 @@ export const DashboardCategory = () => {
               type="primary"
               htmlType="submit"
               className="h-10 px-6 bg-blue-600 hover:bg-blue-700"
+              loading={loading}
             >
               Thêm danh mục
             </Button>

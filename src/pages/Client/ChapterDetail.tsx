@@ -1,77 +1,256 @@
-import { 
-  Button, 
-  Form, 
-  Input 
-} from "antd";
-import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Button, Form, Input, message, Skeleton } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
-import { 
-  ChapterNavigation, 
-  Comments, 
-  CustomBreadcrumb 
-} from "../../components"
-
+import {
+  ChapterNavigation,
+  Comments,
+  CustomBreadcrumb,
+} from "../../components";
+import {
+  IChapter,
+  ICommentFormData,
+  IHistoryListRequest,
+  IPostCommentRequest,
+  IRequestWithChapterNumber,
+} from "../../interfaces";
+import { useApi, useBoolean } from "../../hooks";
+import {
+  chapterApi,
+  commentApi,
+  historyListApi,
+  mangaInteractionApi,
+} from "../../apis";
+import { Controller, useForm } from "react-hook-form";
+import { useAuthStore } from "../../utils/stores";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { commentSchema } from "../../utils/constants";
 
 const { TextArea } = Input;
 
-const chapterImg = Array.from({ length: 10 }, (_, i) => ({src: `/assets/images.jpg`, alt: `Chapter ${i + 1}`}));
-
 export const ChapterDetail = () => {
-    const items = [{title: <Link to="/">Trang chủ</Link>}, {title: <Link to="/search">Thể loại</Link>},
-    {title: <Link to="/manga/chuyen-sinh-thanh-lieu-dot-bien">Chuyển sinh thành liễu đột biến</Link>},
-    {title: <p>Chapter 10</p>}]
-    const [text, setText] = useState("");
-    const maxLength = 300;
-  
-    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setText(e.target.value);
+  const { "manga-slug": slug, "chapter-number": chapterNumber } = useParams();
+  const { loading, errorMessage, callApi: callChapterApis } = useApi<void>();
+  const [chapter, setChapter] = useState<IChapter | null>(null);
+
+  const { isLogin, currentUser } = useAuthStore();
+  const { value: commentsChanged, toggle: toggleCommentsChanged } =
+    useBoolean(false);
+  const maxLength = 300;
+
+  const { errorMessage: historyError, callApi: callHistoryApis } =
+    useApi<void>();
+  const hasCalledApi = useRef(false);
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(commentSchema),
+  });
+
+  const handleUploadComment = async (request: ICommentFormData) => {
+    await callChapterApis(async () => {
+      const sendData: IPostCommentRequest = {
+        userId: currentUser?.id || "",
+        chapterId: chapter?.id || "",
+        content: request.comment,
+      };
+      const { data } = await commentApi.createComment(sendData);
+      if (data) {
+        message.success(data.message, 3);
+        reset();
+        toggleCommentsChanged();
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log(chapter);
+    const handleReadManga = async () => {
+      if (hasCalledApi.current) return;
+      if (!chapter) return;
+      hasCalledApi.current = true;
+      if (!isLogin) {
+        await callChapterApis(async () => {
+          await mangaInteractionApi.interaction(chapter.mangaId);
+          return;
+        });
+      } else {
+        await callHistoryApis(async () => {
+          const sendData: IHistoryListRequest = {
+            readDate: new Date(),
+            readChapter: Number(chapterNumber),
+            mangaId: chapter.mangaId,
+            userId: currentUser?.id || "",
+          };
+          await historyListApi.updateInHistory(sendData);
+        });
+      }
     };
+    handleReadManga();
+  }, [chapter]);
+
+  useEffect(() => {
+    hasCalledApi.current = false;
+    const fetchChapterDetail = async () => {
+      await callChapterApis(async () => {
+        const sendData: IRequestWithChapterNumber = {
+          mangaSlug: slug as string,
+          chapterNumber: Number(chapterNumber),
+        };
+        const { data } = await chapterApi.getByChapterNumber(sendData);
+        if (data) {
+          setChapter(data.data);
+        }
+      });
+    };
+    fetchChapterDetail();
+  }, [chapterNumber, slug]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      message.error(errorMessage, 3);
+    }
+    if (historyError) {
+      message.error(historyError, 3);
+    }
+  }, [errorMessage, historyError]);
+
+  const items = [
+    { title: <Link to="/">Trang chủ</Link> },
+    { title: <Link to="/search">Thể loại</Link> },
+    {
+      title: (
+        <Link to={`/manga/${slug}`}>{chapter?.mangaName || "Tên truyện"}</Link>
+      ),
+    },
+    { title: <p>Chapter {chapterNumber}</p> },
+  ];
+
+  const renderSkeleton = () => (
+    <>
+      <Skeleton active title={{ width: "60%" }} paragraph={{ rows: 0 }} />
+      <Skeleton active paragraph={{ rows: 1 }} />
+      {[1, 2, 3].map((_, idx) => (
+        <Skeleton.Image
+          key={idx}
+          style={{ width: "100%", height: 300, marginBottom: 10 }}
+        />
+      ))}
+    </>
+  );
+
   return (
     <div className="w-full h-full flex justify-center items-center">
       <div className="w-[60%] h-full flex flex-col justify-center items-center bg-white p-5">
         <div className="flex flex-col justify-center w-full">
-          <CustomBreadcrumb items={items}/>
+          <CustomBreadcrumb items={items} />
         </div>
+
         <div className="flex flex-col w-full h-fit-content gap-5">
-          <h3 className="text-2xl text-[22px]">Chuyển sinh thành liễu đột biến - Chapter 10 <span className="text-sm italic text-gray-500">[Cập nhật lúc: 20/02/2025 22:31:06]</span></h3>
-          <ChapterNavigation />
-          <div className="w-full flex flex-col gap-1">
-            {
-              chapterImg.map((item, index) => (
-                <img key={index} src={item.src} alt={item.alt} className="w-full h-full object-cover" />
-              ))
-            }
-          </div>
-          <div className="flex flex-col justify-center w-full">
-            <CustomBreadcrumb items={items}/>
-          </div>
-        </div>
-        <div className="flex flex-col w-full h-fit-content gap-5">
-          <h3 className="text-2xl text-[22px] p-2 bg-gray-200 rounded-md">Bình luận</h3>
-          <Form className="flex flex-col gap-2 w-full">
-              <div className="relative w-full">
-              <TextArea
-                value={text}
-                maxLength={maxLength}
-                onChange={handleChange}
-                placeholder="Bình luận của bạn..."
-                className="text-lg"
-                style={{ height: 120, resize: "none" }}
+          {chapter ? (
+            <>
+              <h3 className="text-2xl text-[22px]">
+                {chapter?.mangaName} - Chapter {chapterNumber}{" "}
+                <span className="text-sm italic text-gray-500">
+                  [Cập nhật lúc:{" "}
+                  {chapter?.updateAt
+                    ? new Date(chapter.updateAt).toLocaleString("vi-VN")
+                    : "N/A"}
+                  ]
+                </span>
+              </h3>
+              <ChapterNavigation
+                currentChapter={Number(chapterNumber)}
+                numberOfChapter={chapter.numberOfChapter}
+                mangaSlug={slug as string}
               />
-              <div className="absolute right-2 bottom-2 text-gray-500 text-sm">
-                {text.length}/{maxLength} ký tự
+              <div className="w-full flex flex-col gap-1">
+                {chapter?.content.map((imgSrc, index) => (
+                  <img
+                    key={index}
+                    src={imgSrc}
+                    alt={`Chapter ${chapterNumber} - Image ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                ))}
               </div>
-            </div>
-            <Button htmlType="submit" type="primary" className="w-fit self-start">
-              Gửi
-            </Button>
-          </Form>
+              <div className="flex flex-col justify-center w-full">
+                <CustomBreadcrumb items={items} />
+              </div>
+            </>
+          ) : (
+            renderSkeleton()
+          )}
         </div>
+
+        <div className="flex flex-col w-full h-fit-content gap-5">
+          <h3 className="text-2xl text-[22px] p-2 bg-gray-200 rounded-md">
+            Bình luận
+          </h3>
+          {chapter ? (
+            <Form
+              className="flex flex-col gap-2 w-full"
+              onFinish={handleSubmit(handleUploadComment)}
+            >
+              <div className="relative w-full">
+                <Controller
+                  control={control}
+                  name="comment"
+                  render={({ field }) => (
+                    <>
+                      <TextArea
+                        {...field}
+                        maxLength={maxLength}
+                        placeholder="Bình luận của bạn..."
+                        className="text-lg"
+                        style={{ height: 120, resize: "none" }}
+                        status={errors.comment ? "error" : ""}
+                      />
+                      <span className="text-red-500">
+                        {errors.comment?.message}
+                      </span>
+                    </>
+                  )}
+                />
+                <div
+                  className={`absolute right-2 bottom-2 text-gray-500 text-sm ${
+                    errors.comment ? "bottom-6" : ""
+                  }`}
+                >
+                  {(watch("comment") || "0").length}/{maxLength} ký tự
+                </div>
+              </div>
+              <Button
+                htmlType="submit"
+                type="primary"
+                className="w-fit self-start"
+                loading={loading}
+              >
+                Gửi
+              </Button>
+            </Form>
+          ) : (
+            <Skeleton.Input active style={{ width: "100%", height: 120 }} />
+          )}
+        </div>
+
         <div className="w-full h-full mt-2">
-          <Comments />
+          {chapter && (
+            <Comments
+              chapterId={chapter.id}
+              commentsChanged={commentsChanged}
+              slug={slug as string}
+              chapterNumber={Number(chapterNumber)}
+              toggleCommentsChanged={toggleCommentsChanged}
+            />
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

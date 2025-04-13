@@ -1,87 +1,56 @@
-export interface User {
-    id: string;
-    email: string;
-    fullName: string;
-    password: string;
-    avatar: string;
-    wallet: number;
-    role: string;
-    isVerified: boolean;
-    isWarning: boolean;
-    isBanned: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+import { ICategoryOption, IPaginationRequest, ISimpleChapter } from ".";
+
+export interface IManga {
+    id: string,
+    name: string,
+    slug: string,
+    description: string,
+    coverImage: string,
+    view: number,
+    follow: number,
+    isDone: boolean,
+    isActive: boolean,
+    authorName: string,
+    categories: ICategoryOption[],
+    chapters: ISimpleChapter[],
+    createAt: Date,
+    updateAt: Date
 }
 
-export interface Author {
-    id: string;
-    user: User;
-    follow: number;
-    createdAt: Date;
-    updatedAt: Date;
+export interface ICreateMangaRequest {
+    authorId: string,
+    categoryIds: string[],
+    name: string,
+    slug: string,
+    description: string,
+    coverImg: string
+    isDone: boolean
 }
 
-export interface Category {
-    id: string;
+export interface IUpdateMangaRequest extends Partial<ICreateMangaRequest> {
+    slug: string
+}
+
+export interface IBulkActiveRequest {
+    mangaIds: string[]
+}
+
+export interface IGetMangaPaginationRequest extends IPaginationRequest {
+    type: number,
+    searchQuery?: string | null,
+    categorySlug?: string | null,
+    sortBy?: string | null,
+    status?: boolean | null,
+}
+
+export interface ICreateMangaForm {
+    categoryIds: string[];
     name: string;
     description: string;
-    createdAt: Date;
-    updatedAt: Date;
+    coverImg: string;
+    isDone?: boolean;
 }
 
-export interface Manga {
-    id: string;
-    author: Author;
-    categories: Category[];
-    chapters: Chapter[];
-    follow: number;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface FollowList { 
-    id: string;
-    user: User;
-    mangas: Manga[];
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface Chapter {
-    id: string;
-    manga: Manga;
-    name: string;
-    content: string[];
-    lastRead: boolean;
-    lastReadAt: Date;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface Comment {
-    id: string;
-    user: User;
-    chapter: Chapter;
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface Notification {
-    id: string;
-    user: User;
-    title: string;
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export interface PaymentBill {
-    id: string;
-    user: User;
-    amount: number;
-    status: string;
-    createdAt: Date;
-    updatedAt: Date;
+export interface IGetMangaByAuthorIdRequest extends IPaginationRequest{
+    authorId: string,
 }

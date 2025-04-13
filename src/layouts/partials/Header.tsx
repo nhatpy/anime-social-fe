@@ -1,66 +1,123 @@
-import { useState } from "react";
-import { 
-    Layout, 
-    Input, 
-    Badge, 
-    Dropdown, 
-    Menu 
-} from "antd"
+import { useEffect, useState } from "react";
+import { Layout, Input, Dropdown } from "antd";
 
 import { icons } from "../../utils/icons";
-import { 
-    items, 
-    itemsLogin, 
-    menuItemNavbar 
-} from "../../utils/constants";
+import { items, ItemsLogin } from "../../utils/constants";
+import { useAuthStore } from "../../utils/stores";
+import { CustomNavbar, NotificationBadge } from "../../components";
+import { useNavigate } from "react-router-dom";
+import { useApi, useBoolean, useWebSocket } from "../../hooks";
+import { IGetNotificationRequest, INotification } from "../../interfaces";
+import { notificationApi } from "../../apis";
 
-const { Header: AntdHeader } = Layout
+const { Header: AntdHeader } = Layout;
 
 const headerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#fff',
-    height: 80,
-    width: '100%',
-    paddingInline: 40,
-    lineHeight: '40',
-    backgroundImage: 'url(/assets/partial_background.jpg)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center'
+  textAlign: "center",
+  color: "#fff",
+  height: 80,
+  width: "100%",
+  paddingInline: 40,
+  lineHeight: "40",
+  backgroundImage: "url(/assets/partial_background.jpg)",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
 };
 
 export const Header = () => {
+  const { loading, callApi: callCommentApis } = useApi<void>();
 
-    const [notification] = useState(9)
-    const [isLogin] = useState(true)
+  const [total, setTotal] = useState(0);
+  const page = 1;
+  const pageSize = 4;
 
-    return (
-        <>
-            <AntdHeader style={headerStyle}>
-                <div className="flex flex-row items-center justify-evenly w-[60%] mx-auto">
-                    <img src="/assets/logo.png" alt="logo" className="w-[20%] h-[80px]"/>
-                    <Input placeholder="Tìm truyện" prefix={icons.search} className="w-[25%] rounded-none ml-5"/>
-                    <Badge count={notification} overflowCount={9}>
-                        <div className="text-white text-xl">{icons.notification}</div>
-                    </Badge>
-                    <div className="flex flex-row items-center gap-2">
-                        <div className="text-xl">{icons.user}</div>
-                        <Dropdown menu={{items: isLogin ? itemsLogin : items}} placement="bottom">
-                            <div className="flex flex-row text-sm cursor-pointer gap-2 justify-center items-center">
-                                <span>Tài khoản</span> <span>{icons.down}</span>
-                            </div>
-                        </Dropdown>
-                    </div>
-                </div>
-            </AntdHeader>
-            <div className="sticky top-0 left-0 z-50">
-                <div className="flex justify-center items-center w-full text-base bg-white">
-                    <Menu
-                        mode="horizontal"
-                        items={menuItemNavbar}
-                        className="menu-centered"
-                    />
-                </div>
-            </div>
-        </>
-    )
-}
+  const [notifications, setNotifications] = useState<INotification[]>([]);
+  const { value: isNotificationChanged, toggle: toggleNotificationChanged } =
+    useBoolean(false);
+
+  const { isLogin, currentUser } = useAuthStore();
+  const itemsLogin = ItemsLogin();
+
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const newMessage = useWebSocket({
+    userId: isLogin && currentUser ? currentUser.id : undefined,
+  });
+
+  const handleSearch = () => {
+    if (searchQuery.trim() !== "") {
+      navigate(`/search?searchQuery=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery("");
+    }
+  };
+
+  const handleDeleteNotification = async (notificationId: string) => {
+    await callCommentApis(async () => {
+      await notificationApi.deleteNotification(notificationId);
+      toggleNotificationChanged();
+    });
+  };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (!isLogin) {
+        setNotifications([]);
+        setTotal(0);
+        return;
+      }
+      await callCommentApis(async () => {
+        const sendData: IGetNotificationRequest = {
+          userId: currentUser?.id || "",
+          page: page,
+          size: pageSize,
+        };
+        const { data } = await notificationApi.getPagination(sendData);
+        if (data) {
+          setNotifications(data.data);
+          setTotal(data.totalItem);
+        }
+      });
+    };
+    fetchNotifications();
+  }, [newMessage, isNotificationChanged, isLogin]);
+  return (
+    <>
+      <AntdHeader style={headerStyle}>
+        <div className="flex flex-row items-center justify-evenly w-[60%] mx-auto">
+          <img src="/assets/logo.png" alt="logo" className="w-[20%] h-[80px]" />
+          <Input
+            placeholder="Tìm truyện"
+            prefix={icons.search}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-[25%] rounded-none ml-5"
+            onPressEnter={handleSearch}
+          />
+          <NotificationBadge
+            notifications={notifications}
+            loading={loading}
+            total={total}
+            handleDeleteNotification={handleDeleteNotification}
+          />
+          <div className="flex flex-row items-center gap-2">
+            <div className="text-xl">{icons.user}</div>
+            <Dropdown
+              menu={{ items: isLogin ? itemsLogin : items }}
+              placement="bottom"
+            >
+              <div className="flex flex-row text-sm cursor-pointer gap-2 justify-center items-center">
+                <span>Tài khoản</span> <span>{icons.down}</span>
+              </div>
+            </Dropdown>
+          </div>
+        </div>
+      </AntdHeader>
+      <div className="sticky top-0 left-0 z-50">
+        <div className="flex justify-center items-center w-full text-base bg-white">
+          <CustomNavbar />
+        </div>
+      </div>
+    </>
+  );
+};

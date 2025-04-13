@@ -10,9 +10,10 @@ export const path = {
     //for auth
     login: "/login",
     register: "/register",
-    verify_success: "/verify-success", //for verify user success after register
-    verify_email: "/verify-email", //for provide email to verify email after click on forgot password
-    reset_password: "/reset-password", //for reset password after verify email success
+    verify_success: "/verify-success",
+    verify_email: "/verify-email", 
+    reset_password: "/reset-password", 
+    email_reminder: "/email-reminder", 
 
     //for list manga
     follow: "/follow",
@@ -20,13 +21,11 @@ export const path = {
     search: "/search",
 
     //for dashboard
-        //both user and admin
     dashboard_info: "/dashboard",
     dashboard_change_password: "/dashboard/change-password",
-
-        //only user
     dashboard_gem: "/dashboard/gem",
     dashboard_manga: "/dashboard/manga",
+    payment_success: "/payment-success",
 
         //only admin
     admin_chart: "/admin",
@@ -35,11 +34,12 @@ export const path = {
     admin_manage_category: "/admin/manage-category",
 
     //for manga detail
-    manga_detail: "/manga/:manga-name",
-    chapter_detail: "/manga/:manga-name/:chapter-number",
+    manga_detail: "/manga/:manga-slug",
+    chapter_detail: "/manga/:manga-slug/:chapter-number",
 
     //for create manga
     create_manga: "/manga/create-manga",
-    manga_create_detail: "/manga/create-manga/:manga-name",
-    create_chapter: "/manga/create-manga/:manga-name/create-chapter",
+    manga_create_detail: "/manga/create-manga/:manga-slug",
+    create_chapter: "/manga/create-manga/:manga-slug/create-chapter",
+    create_chapter_detail: "/manga/create-manga/:manga-slug/create-chapter/:chapter-number",
 }

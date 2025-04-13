@@ -1,40 +1,62 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { icons } from "../utils/icons";
+import { LogoutFunction } from "../utils/helpers";
 
 const { Sider, Content, Footer } = Layout;
 
-const menuItems = [
-  {
-    key: "dashboard",
-    label: <Link to="/admin">Thống kê</Link>,
-    icon: icons.chart,
-  },
-  {
-    key: "users",
-    label: <Link to="/admin/manage-user">Quản lý người dùng</Link>,
-    icon: icons.user,
-  },
-  {
-    key: "categories",
-    label: <Link to="/admin/manage-category">Quản lý thể loại</Link>,
-    icon: icons.category,
-  },
-  {
-    key: "stories",
-    label: <Link to="/admin/manage-manga">Quản lý truyện</Link>,
-    icon: icons.book,
-  },
-  {
-    key: "logout",
-    label: <Link to="/">Đăng xuất</Link>,
-    icon: icons.logout,
-  },
-];
-
 export const AdminLayout = () => {
+  const { handleLogout } = LogoutFunction();
   const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+
+  const getSelectedKey = () => {
+    if (location.pathname.includes("/admin/manage-user")) return "users";
+    if (location.pathname.includes("/admin/manage-category"))
+      return "categories";
+    if (location.pathname.includes("/admin/manage-manga")) return "stories";
+    if (location.pathname === "/admin") return "dashboard";
+    return "";
+  };
+
+  const menuItems = [
+    {
+      key: "dashboard",
+      label: <Link to="/admin">Thống kê</Link>,
+      icon: icons.chart,
+    },
+    {
+      key: "users",
+      label: <Link to="/admin/manage-user">Quản lý người dùng</Link>,
+      icon: icons.user,
+    },
+    {
+      key: "categories",
+      label: <Link to="/admin/manage-category">Quản lý thể loại</Link>,
+      icon: icons.category,
+    },
+    {
+      key: "stories",
+      label: <Link to="/admin/manage-manga">Quản lý truyện</Link>,
+      icon: icons.book,
+    },
+    {
+      key: "logout",
+      label: (
+        <p>
+          <button
+            onClick={() =>
+              handleLogout(localStorage.getItem("access_token") || "")
+            }
+          >
+            Đăng xuất
+          </button>
+        </p>
+      ),
+      icon: icons.logout,
+    },
+  ];
 
   return (
     <Layout className="min-h-screen">
@@ -44,7 +66,7 @@ export const AdminLayout = () => {
         </div>
         <Menu
           theme="dark"
-          defaultSelectedKeys={["dashboard"]}
+          selectedKeys={[getSelectedKey()]}
           mode="inline"
           items={menuItems}
           className="text-base"
