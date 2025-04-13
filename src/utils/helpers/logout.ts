@@ -17,6 +17,7 @@ export const LogoutFunction = () => {
             };
             const { data } = await authenticationApi.logout(sendData);
             if (data) {
+                message.success(data.message, 3);
                 clearCurrentUser();
                 setIsLogout();
                 localStorage.removeItem("access_token");

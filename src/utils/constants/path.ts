@@ -10,10 +10,10 @@ export const path = {
     //for auth
     login: "/login",
     register: "/register",
-    verify_success: "/verify-success", //for verify user success after register
-    verify_email: "/verify-email", //for provide email to verify email after click on forgot password
-    reset_password: "/reset-password", //for reset password after verify email success
-    email_reminder: "/email-reminder", //for email reminder
+    verify_success: "/verify-success",
+    verify_email: "/verify-email", 
+    reset_password: "/reset-password", 
+    email_reminder: "/email-reminder", 
 
     //for list manga
     follow: "/follow",
@@ -21,11 +21,8 @@ export const path = {
     search: "/search",
 
     //for dashboard
-        //both user and admin
     dashboard_info: "/dashboard",
     dashboard_change_password: "/dashboard/change-password",
-
-        //only user
     dashboard_gem: "/dashboard/gem",
     dashboard_manga: "/dashboard/manga",
     payment_success: "/payment-success",

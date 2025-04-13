@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { icons } from "../utils/icons";
-import { Badge, Dropdown, Spin } from "antd";
+import { Badge, Dropdown, Empty, Spin } from "antd";
 import { INotification } from "../interfaces";
 
 type NotificationBadgeProps = {
@@ -20,9 +20,16 @@ export const NotificationBadge: React.FC<NotificationBadgeProps> = ({
   const notificationDropdownContent = (notifications: INotification[]) => (
     <div className="w-fit bg-white rounded-md shadow-lg p-2 gap-4">
       {notifications.length === 0 ? (
-        <div className="text-center text-gray-500 py-4 italic">
-          Không có thông báo
-        </div>
+        <Empty
+          image={Empty.PRESENTED_IMAGE_DEFAULT}
+          description={
+            <div>
+              <p className="text-sm text-blue-600 font-semibold">
+                Chưa có thông báo
+              </p>
+            </div>
+          }
+        />
       ) : (
         <>
           {loading ? (

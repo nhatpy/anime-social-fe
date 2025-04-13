@@ -112,7 +112,7 @@ export const DashboardManga = () => {
       ),
     },
     {
-      title: "Lượt theo dõi",
+      title: "Lượt xem",
       dataIndex: "view",
       key: "view",
       render: (view: string) => (
