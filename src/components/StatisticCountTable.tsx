@@ -16,10 +16,10 @@ const StatisticTable: React.FC<StatisticTableProps> = ({
         <thead className="bg-gray-100">
           <tr>
             <th className="text-left p-3 font-semibold text-gray-700">
-              Chỉ số
+              Loại thống kê
             </th>
             <th className="text-right p-3 font-semibold text-gray-700">
-              Giá trị
+              Số lượng
             </th>
           </tr>
         </thead>
@@ -44,22 +44,22 @@ const StatisticTable: React.FC<StatisticTableProps> = ({
           {revenueData && (
             <>
               <tr className="border-t">
-                <td className="p-3">Số đơn thành công</td>
+                <td className="p-3">Thanh toán ủng hộ thành công</td>
                 <td className="p-3 text-right">
                   {revenueData.numberOfSuccess}
                 </td>
               </tr>
               <tr className="border-t">
-                <td className="p-3">Số đơn thất bại</td>
+                <td className="p-3">Thanh toán ủng hộ thất bại</td>
                 <td className="p-3 text-right">{revenueData.numberOfFailed}</td>
               </tr>
               <tr className="border-t">
-                <td className="p-3">Số đơn đang chờ</td>
+                <td className="p-3">Đang chờ thanh toán ủng hộ</td>
                 <td className="p-3 text-right">
                   {revenueData.numberOfPending}
                 </td>
               </tr>
-              <tr className="border-t">
+              <tr className="border-t text-base">
                 <td className="p-3 font-semibold">Tổng doanh thu</td>
                 <td className="p-3 text-right font-semibold text-green-600">
                   {revenueData.totalRevenue.toLocaleString()}đ

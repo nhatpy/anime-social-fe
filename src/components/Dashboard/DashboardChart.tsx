@@ -274,14 +274,17 @@ export const DashboardChart = () => {
               />
             </div>
           </div>
-          <div className="w-[30%]">
+          <div className="w-[30%] pb-3 flex flex-col gap-6">
+            <p className="font-bold text-[#1E3A8A] text-base">
+              Các thống kê chung
+            </p>
             <StatisticTable revenueData={revenueCount} countData={finalCount} />
           </div>
         </div>
 
         <div className="w-full p-6 pb-3 flex flex-col gap-6">
           <p className="font-bold text-[#1E3A8A] text-base">
-            Danh sách các người dùng đã ủng hộ
+            Danh sách người dùng đã ủng hộ
           </p>
           <div className="w-full flex flex-row gap-6">
             <Table
@@ -311,7 +314,7 @@ export const DashboardChart = () => {
 
         <div className="w-full p-6 pb-3 flex flex-col gap-6">
           <p className="font-bold text-[#1E3A8A] text-base">
-            Danh sách các truyện phổ biến
+            Danh sách truyện phổ biến (Theo lượt tương tác)
           </p>
 
           <div className="w-full flex flex-row gap-6">
