@@ -12,7 +12,7 @@ export const useWebSocket = ({ userId }: WebSocketHookProps) => {
   useEffect(() => {
     if (!userId) return;
 
-    const socket = new SockJS("https://localhost:8080/api/ws");
+    const socket = new SockJS(import.meta.env.VITE_SOCKET_URL);
     const stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
