@@ -43,14 +43,14 @@ export const CustomNavbar = () => {
 
   const menuItems1 = [
     { label: "HOME", to: "/", icon: icons.home },
-    { label: "HOT", to: "/#" },
+    { label: "HOT", to: "/search?sortBy=view" },
     { label: "THEO DÕI", to: "/follow" },
     { label: "TÌM TRUYỆN", to: "/search" },
   ];
   const menuItems2 = [
-    { label: "ANIME", to: "/#" },
-    { label: "MANHUA", to: "/#" },
-    { label: "MANHWA", to: "/#" },
+    { label: "ANIME", to: "/search?categorySlug=anime" },
+    { label: "MANHUA", to: "/search?categorySlug=manhua" },
+    { label: "MANHWA", to: "/search?categorySlug=manhwa" },
   ];
 
   return (
@@ -88,7 +88,7 @@ export const CustomNavbar = () => {
                     onMouseLeave={() => setHoveredCategoryId(null)}
                   >
                     <Link
-                      to={`/search?category=${category.id}`}
+                      to={`/search?categorySlug=${category.slug}`}
                       className="text-base text-gray-700 transition"
                     >
                       {category.name.charAt(0).toUpperCase() +

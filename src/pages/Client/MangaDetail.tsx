@@ -32,6 +32,8 @@ export const MangaDetail = () => {
   const [visibleChapters, setVisibleChapters] = useState(2);
   const { isLogin, currentUser } = useAuthStore();
   const { value: isFollow, setValue: setFollow } = useBoolean(false);
+  const { value: isMangaDetailChanged, toggle: toggleMangaDetailChanged } =
+    useBoolean(false);
 
   const items = [
     { title: <Link to="/">Trang chủ</Link> },
@@ -53,6 +55,22 @@ export const MangaDetail = () => {
       if (data) {
         setFollow(true);
         message.success(data.message, 3);
+        toggleMangaDetailChanged();
+      }
+    });
+  };
+
+  const handleUnfollow = async () => {
+    await callFollowApis(async () => {
+      const sendData: IListRequest = {
+        userId: currentUser?.id || "",
+        mangaId: mangaDetail?.id || "",
+      };
+      const { data } = await followListApi.deleteFromFollowList(sendData);
+      if (data) {
+        setFollow(false);
+        message.success(data.message, 3);
+        toggleMangaDetailChanged();
       }
     });
   };
@@ -69,7 +87,7 @@ export const MangaDetail = () => {
 
     fetchMangaDetail();
     window.scrollTo({ top: 0 });
-  }, []);
+  }, [isMangaDetailChanged, slug]);
 
   useEffect(() => {
     const fetchFollowed = async () => {
@@ -193,7 +211,8 @@ export const MangaDetail = () => {
                           isFollow ? "bg-red-500" : "bg-blue-500"
                         }`}
                         loading={loading}
-                        onClick={handleFollow}
+                        onClick={isFollow ? handleUnfollow : handleFollow}
+                        disabled={!isLogin}
                       >
                         {icons.heart}
                         {isFollow ? "Hủy theo dõi" : "Theo dõi"}

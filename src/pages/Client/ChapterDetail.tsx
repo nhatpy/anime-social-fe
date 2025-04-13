@@ -1,5 +1,5 @@
 import { Button, Form, Input, message, Skeleton } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import {
@@ -10,11 +10,17 @@ import {
 import {
   IChapter,
   ICommentFormData,
+  IHistoryListRequest,
   IPostCommentRequest,
   IRequestWithChapterNumber,
 } from "../../interfaces";
 import { useApi, useBoolean } from "../../hooks";
-import { chapterApi, commentApi } from "../../apis";
+import {
+  chapterApi,
+  commentApi,
+  historyListApi,
+  mangaInteractionApi,
+} from "../../apis";
 import { Controller, useForm } from "react-hook-form";
 import { useAuthStore } from "../../utils/stores";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -24,13 +30,17 @@ const { TextArea } = Input;
 
 export const ChapterDetail = () => {
   const { "manga-slug": slug, "chapter-number": chapterNumber } = useParams();
-  const { loading, errorMessage, callApi: callMangaApis } = useApi<void>();
+  const { loading, errorMessage, callApi: callChapterApis } = useApi<void>();
   const [chapter, setChapter] = useState<IChapter | null>(null);
 
-  const { currentUser } = useAuthStore();
+  const { isLogin, currentUser } = useAuthStore();
   const { value: commentsChanged, toggle: toggleCommentsChanged } =
     useBoolean(false);
   const maxLength = 300;
+
+  const { errorMessage: historyError, callApi: callHistoryApis } =
+    useApi<void>();
+  const hasCalledApi = useRef(false);
 
   const {
     control,
@@ -43,7 +53,7 @@ export const ChapterDetail = () => {
   });
 
   const handleUploadComment = async (request: ICommentFormData) => {
-    await callMangaApis(async () => {
+    await callChapterApis(async () => {
       const sendData: IPostCommentRequest = {
         userId: currentUser?.id || "",
         chapterId: chapter?.id || "",
@@ -59,8 +69,35 @@ export const ChapterDetail = () => {
   };
 
   useEffect(() => {
-    const fetchMangaDetail = async () => {
-      await callMangaApis(async () => {
+    console.log(chapter);
+    const handleReadManga = async () => {
+      if (hasCalledApi.current) return;
+      if (!chapter) return;
+      hasCalledApi.current = true;
+      if (!isLogin) {
+        await callChapterApis(async () => {
+          await mangaInteractionApi.interaction(chapter.mangaId);
+          return;
+        });
+      } else {
+        await callHistoryApis(async () => {
+          const sendData: IHistoryListRequest = {
+            readDate: new Date(),
+            readChapter: Number(chapterNumber),
+            mangaId: chapter.mangaId,
+            userId: currentUser?.id || "",
+          };
+          await historyListApi.updateInHistory(sendData);
+        });
+      }
+    };
+    handleReadManga();
+  }, [chapter]);
+
+  useEffect(() => {
+    hasCalledApi.current = false;
+    const fetchChapterDetail = async () => {
+      await callChapterApis(async () => {
         const sendData: IRequestWithChapterNumber = {
           mangaSlug: slug as string,
           chapterNumber: Number(chapterNumber),
@@ -71,14 +108,17 @@ export const ChapterDetail = () => {
         }
       });
     };
-    fetchMangaDetail();
+    fetchChapterDetail();
   }, [chapterNumber, slug]);
 
   useEffect(() => {
     if (errorMessage) {
       message.error(errorMessage, 3);
     }
-  }, [errorMessage]);
+    if (historyError) {
+      message.error(historyError, 3);
+    }
+  }, [errorMessage, historyError]);
 
   const items = [
     { title: <Link to="/">Trang chủ</Link> },

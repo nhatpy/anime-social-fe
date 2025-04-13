@@ -1,11 +1,14 @@
-import { useState } from "react";
-import { Layout, Input, Badge, Dropdown } from "antd";
+import { useEffect, useState } from "react";
+import { Layout, Input, Dropdown } from "antd";
 
 import { icons } from "../../utils/icons";
 import { items, ItemsLogin } from "../../utils/constants";
 import { useAuthStore } from "../../utils/stores";
-import { CustomNavbar } from "../../components";
+import { CustomNavbar, NotificationBadge } from "../../components";
 import { useNavigate } from "react-router-dom";
+import { useApi, useBoolean, useWebSocket } from "../../hooks";
+import { IGetNotificationRequest, INotification } from "../../interfaces";
+import { notificationApi } from "../../apis";
 
 const { Header: AntdHeader } = Layout;
 
@@ -22,11 +25,25 @@ const headerStyle: React.CSSProperties = {
 };
 
 export const Header = () => {
-  const [notification] = useState(9);
-  const { isLogin } = useAuthStore();
+  const { loading, callApi: callCommentApis } = useApi<void>();
+
+  const [total, setTotal] = useState(0);
+  const page = 1;
+  const pageSize = 4;
+
+  const [notifications, setNotifications] = useState<INotification[]>([]);
+  const { value: isNotificationChanged, toggle: toggleNotificationChanged } =
+    useBoolean(false);
+
+  const { isLogin, currentUser } = useAuthStore();
   const itemsLogin = ItemsLogin();
+
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const newMessage = useWebSocket({
+    userId: isLogin && currentUser ? currentUser.id : undefined,
+  });
 
   const handleSearch = () => {
     if (searchQuery.trim() !== "") {
@@ -35,6 +52,35 @@ export const Header = () => {
     }
   };
 
+  const handleDeleteNotification = async (notificationId: string) => {
+    await callCommentApis(async () => {
+      await notificationApi.deleteNotification(notificationId);
+      toggleNotificationChanged();
+    });
+  };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      if (!isLogin) {
+        setNotifications([]);
+        setTotal(0);
+        return;
+      }
+      await callCommentApis(async () => {
+        const sendData: IGetNotificationRequest = {
+          userId: currentUser?.id || "",
+          page: page,
+          size: pageSize,
+        };
+        const { data } = await notificationApi.getPagination(sendData);
+        if (data) {
+          setNotifications(data.data);
+          setTotal(data.totalItem);
+        }
+      });
+    };
+    fetchNotifications();
+  }, [newMessage, isNotificationChanged, isLogin]);
   return (
     <>
       <AntdHeader style={headerStyle}>
@@ -48,9 +94,12 @@ export const Header = () => {
             className="w-[25%] rounded-none ml-5"
             onPressEnter={handleSearch}
           />
-          <Badge count={notification} overflowCount={9}>
-            <div className="text-white text-xl">{icons.notification}</div>
-          </Badge>
+          <NotificationBadge
+            notifications={notifications}
+            loading={loading}
+            total={total}
+            handleDeleteNotification={handleDeleteNotification}
+          />
           <div className="flex flex-row items-center gap-2">
             <div className="text-xl">{icons.user}</div>
             <Dropdown

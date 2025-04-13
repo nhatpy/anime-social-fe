@@ -1,19 +1,23 @@
 import { Button, message, Result } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useApi } from "../../hooks";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { paymentApi } from "../../apis";
 
 export const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const { errorMessage, callApi: paymentCallback } = useApi<void>();
   const navigate = useNavigate();
+  const hasCalledApi = useRef(false);
   const handleBackToHome = () => {
     navigate("/");
   };
 
   useEffect(() => {
     const handleCallback = async () => {
+      if (hasCalledApi.current) return;
+      hasCalledApi.current = true;
+
       await paymentCallback(async () => {
         const callbackParams = new Map<string, string>();
         for (const [key, value] of searchParams.entries()) {
@@ -24,7 +28,7 @@ export const PaymentSuccess = () => {
       });
     };
     handleCallback();
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     if (errorMessage) {

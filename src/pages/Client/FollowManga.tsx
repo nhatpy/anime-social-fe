@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { message, Pagination, Skeleton } from "antd";
+import { Empty, message, Pagination, Skeleton } from "antd";
 
 import {
   CustomBreadcrumb,
@@ -84,21 +84,34 @@ export const FollowManga = () => {
         <div className="flex flex-row w-full gap-4">
           <div className="flex flex-col gap-2 w-[70%]">
             <div className="grid grid-cols-4 gap-2 w-full h-full">
-              {loading
-                ? Array.from({ length: 8 }).map((_, index) => (
-                    <Skeleton.Node
-                      key={index}
-                      active
-                      style={{ width: "100%", height: 200, borderRadius: 6 }}
-                    />
-                  ))
-                : followMangas.map((followManga) => (
-                    <SlotWithX
-                      key={followManga.id}
-                      manga={followManga}
-                      handleDeleteFollowManga={handleDeleteFollowManga}
-                    />
-                  ))}
+              {loading ? (
+                <Skeleton
+                  style={{ width: "300%", height: 180 }}
+                  paragraph={{ rows: 5 }}
+                  active
+                />
+              ) : followMangas.length === 0 ? (
+                <div className="flex justify-center items-center w-full h-full col-span-4">
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description={
+                      <div>
+                        <p className="text-lg text-blue-600 font-semibold">
+                          Bạn chưa theo dõi truyện nào
+                        </p>
+                      </div>
+                    }
+                  />
+                </div>
+              ) : (
+                followMangas.map((followManga) => (
+                  <SlotWithX
+                    key={followManga.id}
+                    manga={followManga}
+                    handleDeleteFollowManga={handleDeleteFollowManga}
+                  />
+                ))
+              )}
             </div>
             {!loading && (
               <div className="flex justify-center items-center w-full pt-7">

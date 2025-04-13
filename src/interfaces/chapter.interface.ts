@@ -2,6 +2,7 @@ export interface IChapter {
     id: string,
     chapterNumber: number,
     content: string[],
+    mangaId: string,
     mangaSlug: string,
     mangaName: string,
     numberOfChapter: number[],

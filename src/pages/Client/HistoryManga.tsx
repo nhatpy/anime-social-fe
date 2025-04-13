@@ -1,4 +1,4 @@
-import { message, Pagination } from "antd";
+import { Empty, message, Pagination, Skeleton } from "antd";
 import { Link } from "react-router-dom";
 
 import {
@@ -20,7 +20,11 @@ export const HistoryManga = () => {
   ];
 
   const [historyMangas, setHistoryMangas] = useState<IHistoryManga[]>([]);
-  const { errorMessage, callApi: callHistoryMangaApis } = useApi<void>();
+  const {
+    loading,
+    errorMessage,
+    callApi: callHistoryMangaApis,
+  } = useApi<void>();
   const { currentUser } = useAuthStore();
   const [page, setPage] = useState(1);
   const pageSize = 16;
@@ -78,13 +82,34 @@ export const HistoryManga = () => {
         <div className="flex flex-row w-full gap-4">
           <div className="flex flex-col gap-2 w-[70%]">
             <div className="grid grid-cols-4 gap-2 w-full h-full">
-              {historyMangas.map((historyManga) => (
-                <SlotHistory
-                  key={historyManga.manga.id}
-                  historyManga={historyManga}
-                  handleDeleteHistoryManga={handleDeleteHistoryManga}
+              {loading ? (
+                <Skeleton
+                  style={{ width: "300%", height: 180 }}
+                  paragraph={{ rows: 5 }}
+                  active
                 />
-              ))}
+              ) : historyMangas.length === 0 ? (
+                <div className="flex justify-center items-center w-full h-full col-span-4">
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description={
+                      <div>
+                        <p className="text-lg text-blue-600 font-semibold">
+                          Bạn chưa đọc truyện nào
+                        </p>
+                      </div>
+                    }
+                  />
+                </div>
+              ) : (
+                historyMangas.map((historyManga) => (
+                  <SlotHistory
+                    key={historyManga.manga.id}
+                    historyManga={historyManga}
+                    handleDeleteHistoryManga={handleDeleteHistoryManga}
+                  />
+                ))
+              )}
             </div>
             <div className="flex justify-center items-center w-full pt-7">
               <Pagination

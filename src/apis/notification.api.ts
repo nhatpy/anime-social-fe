@@ -11,5 +11,9 @@ export const notificationApi = {
         ).toString();
         const url = `notification/${userId}?${queryString}`;
         return await axiosClient.get(url);
+    },
+    deleteNotification: async (notificationId: string) => {
+        const url = `notification/${notificationId}`;
+        return await axiosClient.delete(url);
     }
 }
