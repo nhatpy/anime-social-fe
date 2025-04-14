@@ -1,7 +1,7 @@
-import { useApi } from "../hooks";
+// import { useApi } from "../hooks";
 // import { useWebSocket } from "../hooks";
 
-import { IGetMangaPaginationRequest } from "../interfaces";
+// import { IGetMangaPaginationRequest } from "../interfaces";
 import {
   //   MangaStatus,
   //   sortByOptions,
@@ -18,21 +18,21 @@ export const TestWebSocket = () => {
   //   userId: "37dba83c-dd99-442c-8ef7-f0e61fb8e1a1",
   // });
 
-  const { callApi } = useApi<void>();
-  const handleGetPaginationManga = async (
-    params: IGetMangaPaginationRequest
-  ) => {
-    await callApi(async () => {
-      const queryString = new URLSearchParams(
-        Object.entries(params).reduce((acc, [key, value]) => {
-          if (typeof value !== "number" && !value) return acc;
-          acc[key] = String(value);
-          return acc;
-        }, {} as Record<string, string>)
-      ).toString();
-      console.log(queryString);
-    });
-  };
+  // const { callApi } = useApi<void>();
+  // const handleGetPaginationManga = async (
+  //   params: IGetMangaPaginationRequest
+  // ) => {
+  //   await callApi(async () => {
+  //     const queryString = new URLSearchParams(
+  //       Object.entries(params).reduce((acc, [key, value]) => {
+  //         if (typeof value !== "number" && !value) return acc;
+  //         acc[key] = String(value);
+  //         return acc;
+  //       }, {} as Record<string, string>)
+  //     ).toString();
+  //     console.log(queryString);
+  //   });
+  // };
   // const variable = "NAME";
   // console.log(SortOptions.NAME);
   // console.log(sortByOptions[variable]);
@@ -48,7 +48,7 @@ export const TestWebSocket = () => {
       <br />
       <p>Notifications for dolongnhat0302@gmail.com:</p>
       {messageUser2 && <p>{messageUser2}</p>} */}
-      <button
+      {/* <button
         onClick={() =>
           handleGetPaginationManga({
             type: 0,
@@ -61,7 +61,7 @@ export const TestWebSocket = () => {
         }
       >
         test
-      </button>
+      </button> */}
     </div>
   );
 };

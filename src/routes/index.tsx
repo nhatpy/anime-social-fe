@@ -38,11 +38,16 @@ import {
   DashboardPassword,
 } from "../components";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { ExceptAdminRoute } from "./ExceptAdminRoute";
 
 export const router = createBrowserRouter([
   {
     path: path.home,
-    element: <DefaultLayout />,
+    element: (
+      <ExceptAdminRoute>
+        <DefaultLayout />
+      </ExceptAdminRoute>
+    ),
     children: [
       {
         path: "",
@@ -82,7 +87,11 @@ export const router = createBrowserRouter([
       },
       {
         path: path.history,
-        element: <HistoryManga />,
+        element: (
+          <ProtectedRoute role="USER">
+            <HistoryManga />
+          </ProtectedRoute>
+        ),
       },
       {
         path: path.search,
@@ -90,7 +99,11 @@ export const router = createBrowserRouter([
       },
       {
         path: path.dashboard_info,
-        element: <DashboardLayout />,
+        element: (
+          <ProtectedRoute role="USER">
+            <DashboardLayout />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: "",
@@ -136,23 +149,43 @@ export const router = createBrowserRouter([
       },
       {
         path: path.create_manga,
-        element: <CreateManga />,
+        element: (
+          <ProtectedRoute role="USER">
+            <CreateManga />
+          </ProtectedRoute>
+        ),
       },
       {
         path: path.create_chapter,
-        element: <CreateChapter />,
+        element: (
+          <ProtectedRoute role="USER">
+            <CreateChapter />
+          </ProtectedRoute>
+        ),
       },
       {
         path: path.manga_create_detail,
-        element: <MangaCreateDetail />,
+        element: (
+          <ProtectedRoute role="USER">
+            <MangaCreateDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: path.create_chapter_detail,
-        element: <ChapterCreateDetail />,
+        element: (
+          <ProtectedRoute role="USER">
+            <ChapterCreateDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: path.payment_success,
-        element: <PaymentSuccess />,
+        element: (
+          <ProtectedRoute role="USER">
+            <PaymentSuccess />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/test-websocket",
@@ -162,7 +195,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute role="ADMIN">
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         path: "",
