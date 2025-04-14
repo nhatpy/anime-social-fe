@@ -37,6 +37,7 @@ import {
   DashboardManga,
   DashboardPassword,
 } from "../components";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -73,7 +74,11 @@ export const router = createBrowserRouter([
       },
       {
         path: path.follow,
-        element: <FollowManga />,
+        element: (
+          <ProtectedRoute role="USER">
+            <FollowManga />
+          </ProtectedRoute>
+        ),
       },
       {
         path: path.history,
