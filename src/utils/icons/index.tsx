@@ -38,7 +38,11 @@ import {
   RiNotificationBadgeFill,
   RiCharacterRecognitionFill,
 } from "react-icons/ri";
-import { MdCategory, MdOutlineTipsAndUpdates } from "react-icons/md";
+import {
+  MdCategory,
+  MdOutlineTipsAndUpdates,
+  MdOutlineMessage,
+} from "react-icons/md";
 import { GrUserAdmin } from "react-icons/gr";
 
 export const icons = {
@@ -79,4 +83,5 @@ export const icons = {
   admin: <GrUserAdmin />,
   new: <RiNotificationBadgeFill />,
   character: <RiCharacterRecognitionFill />,
+  message: <MdOutlineMessage />,
 };

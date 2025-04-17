@@ -28,7 +28,7 @@ export const DashboardCategory = () => {
   const { errorMessage, loading, callApi: callCategoryApis } = useApi<void>();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [page, setPage] = useState(1);
-  const pageSize = 7;
+  const pageSize = 8;
   const [total, setTotal] = useState(0);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
