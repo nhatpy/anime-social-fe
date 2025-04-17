@@ -26,7 +26,6 @@ export const CustomNavbar = () => {
     fetchCategory();
   }, []);
 
-  // Optional: Đóng dropdown khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (

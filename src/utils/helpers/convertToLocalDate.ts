@@ -12,6 +12,6 @@ export function convertToLocalDate(date: Date): string {
     } else if (diffHour >= 1) {
         return `${diffHour} giờ trước`;
     } else {
-        return "Vừa được đăng";
+        return "Mới đây";
     }
 }

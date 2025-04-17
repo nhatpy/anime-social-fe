@@ -22,7 +22,6 @@ import {
   CreateManga,
   CreateChapter,
   MangaCreateDetail,
-  TestWebSocket,
   EmailVerificationReminder,
   PaymentSuccess,
   ChapterCreateDetail,
@@ -186,10 +185,6 @@ export const router = createBrowserRouter([
             <PaymentSuccess />
           </ProtectedRoute>
         ),
-      },
-      {
-        path: "/test-websocket",
-        element: <TestWebSocket />,
       },
     ],
   },

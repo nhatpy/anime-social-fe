@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from "react-router-dom"; // thêm useLocation
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { Tabs, TabsProps } from "antd";
 
 import { CustomBreadcrumb } from "../components";
